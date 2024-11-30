@@ -1,8 +1,8 @@
 <view class="container">
-  <!-- 注册选择页面 -->
-  <view class="register-container" wx:if="{{showRegister && !isRegistered}}">
+  <!-- 首次登录注册页面 -->
+  <view class="register-container" wx:if="{{isFirstLogin && !isPhoneVerified}}">
     <view class="register-title">欢迎使用食元养生</view>
-    <view class="register-subtitle">请选择注册方式</view>
+    <view class="register-subtitle">首次使用需要验证手机号</view>
     
     <view class="register-options">
       <button 
@@ -12,7 +12,7 @@
         disabled="{{isLoading}}"
       >
         <image class="register-icon" src="/images/wechat.png" mode="aspectFit"></image>
-        微信手机号快速注册
+        微信手机号快速验证
       </button>
 
       <view class="divider">
@@ -27,7 +27,7 @@
           bindtap="chooseRegisterType"
           data-type="manual"
         >
-          手机号注册
+          手动输入手机号
         </button>
 
         <block wx:if="{{registerType === 'manual'}}">
@@ -60,7 +60,7 @@
               class="submit-btn"
               bindtap="handleManualRegister"
             >
-              注册
+              验证并登录
             </button>
           </view>
         </block>
@@ -68,9 +68,9 @@
     </view>
   </view>
 
-  <!-- 保持原有内容 -->
+  <!-- 主页内容 -->
   <block wx:else>
-    <!-- 顶部用户信息 -->
+    <!-- 保持原有内容 -->
     <view class="header">
       <view class="userinfo-mini" wx:if="{{hasUserInfo}}">
         <image class="userinfo-avatar-mini" src="{{userInfo.avatarUrl}}" mode="cover"></image>
@@ -82,28 +82,6 @@
       </view>
     </view>
 
-    <!-- 登录区域 -->
-    <view class="login-section" wx:if="{{!hasUserInfo}}">
-      <view class="userinfo">
-        <block wx:if="{{canIUseOpenData}}">
-          <view class="userinfo-avatar">
-            <open-data type="userAvatarUrl"></open-data>
-          </view>
-          <open-data type="userNickName"></open-data>
-        </block>
-        <block wx:elif="{{!hasUserInfo}}">
-          <button 
-            class="auth-btn {{isLoading ? 'loading' : ''}}" 
-            bindtap="handleUserProfile"
-            disabled="{{isLoading}}"
-          > 
-            {{isLoading ? '登录中...' : '微信一键登录'}}
-          </button>
-        </block>
-      </view>
-    </view>
-
-    <!-- 每日推荐 -->
     <view class="daily-recommend">
       <view class="section-title">每日推荐</view>
       <view class="recommend-list">
@@ -119,7 +97,6 @@
       </view>
     </view>
 
-    <!-- 天气建议 -->
     <view class="weather-suggestions">
       <view class="section-title">今日养生建议</view>
       <view class="suggestion-list">

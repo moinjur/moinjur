@@ -15,12 +15,14 @@ Page({
     humidity: '',
     isLoading: false,
     hasLocationAuth: false,
-    // 新增注册相关数据
     showRegister: true,
-    registerType: '', // 'wechat' 或 'manual'
+    registerType: '',
     manualPhoneNumber: '',
     verificationCode: '',
     showVerificationInput: false,
+    // 新增登录相关数据
+    isFirstLogin: true,
+    isPhoneVerified: false,
     dailyRecommends: [
       {
         id: 1,
@@ -33,65 +35,116 @@ Page({
   },
 
   onLoad() {
-    // 保持原有代码...
-    
-    // 检查是否已注册
-    const isRegistered = wx.getStorageSync('isRegistered');
-    if (isRegistered) {
+    if (wx.getUserProfile) {
       this.setData({
-        isRegistered: true,
-        showRegister: false
+        canIUseGetUserProfile: true
       });
     }
-  },
 
-  // 选择注册方式
-  chooseRegisterType(e) {
-    const type = e.currentTarget.dataset.type;
-    this.setData({ registerType: type });
+    // 检查是否首次登录
+    const isFirstLogin = !wx.getStorageSync('hasLoggedIn');
+    const isPhoneVerified = wx.getStorageSync('isPhoneVerified');
     
-    if (type === 'wechat') {
-      this.handleUserProfile();
+    this.setData({
+      isFirstLogin,
+      isPhoneVerified
+    });
+
+    // 如果已验证手机号，直接跳转主页
+    if (isPhoneVerified) {
+      this.navigateToMain();
     }
+
+    // 检查本地存储的用户信息
+    const storedUserInfo = wx.getStorageSync('userInfo');
+    if (storedUserInfo) {
+      this.setData({
+        userInfo: storedUserInfo,
+        hasUserInfo: true
+      });
+      app.globalData.userInfo = storedUserInfo;
+    }
+
+    // 检查位置权限并获取位置
+    this.checkLocationAuth();
   },
 
-  // 处理手动输入手机号
-  handlePhoneInput(e) {
-    this.setData({
-      manualPhoneNumber: e.detail.value
+  // 验证手机号
+  verifyPhoneNumber(phoneNumber) {
+    // TODO: 调用后端验证接口
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        wx.setStorageSync('isPhoneVerified', true);
+        this.setData({ isPhoneVerified: true });
+        resolve(true);
+      }, 1000);
     });
   },
 
-  // 发送验证码
-  sendVerificationCode() {
-    const phoneNumber = this.data.manualPhoneNumber;
-    if (!/^1[3-9]\d{9}$/.test(phoneNumber)) {
-      wx.showToast({
-        title: '请输入正确的手机号',
-        icon: 'none'
-      });
-      return;
-    }
+  // 跳转到主页
+  navigateToMain() {
+    wx.setStorageSync('hasLoggedIn', true);
+    
+    // 重新加载当前页面作为主页
+    this.setData({
+      showRegister: false,
+      isFirstLogin: false
+    });
 
-    // TODO: 调用发送验证码接口
     wx.showToast({
-      title: '验证码已发送',
+      title: '登录成功',
       icon: 'success'
     });
-
-    this.setData({
-      showVerificationInput: true
-    });
   },
 
-  // 处理验证码输入
-  handleVerificationInput(e) {
-    this.setData({
-      verificationCode: e.detail.value
-    });
+  // 处理登录成功
+  async handleLoginSuccess(phoneNumber) {
+    try {
+      await this.verifyPhoneNumber(phoneNumber);
+      this.navigateToMain();
+    } catch (error) {
+      console.error('手机号验证失败：', error);
+      wx.showToast({
+        title: '手机号验证失败',
+        icon: 'none'
+      });
+    }
   },
 
-  // 手动注册
+  // 修改原有方法
+  register(phoneNumber) {
+    console.log('注册用户，手机号：', phoneNumber);
+    
+    wx.setStorageSync('isRegistered', true);
+    
+    this.setData({
+      isRegistered: true,
+      showRegister: false,
+      phoneNumber: phoneNumber
+    });
+
+    // 注册成功后进行手机号验证和跳转
+    this.handleLoginSuccess(phoneNumber);
+  },
+
+  // 修改获取手机号方法
+  getPhoneNumber(e) {
+    if (e && e.detail.errMsg === 'getPhoneNumber:ok') {
+      const phoneNumber = e.detail.phoneNumber;
+      this.setData({
+        phoneNumber: phoneNumber,
+        isRegistered: true,
+        showPhoneButton: false
+      });
+      app.globalData.phoneNumber = phoneNumber;
+      app.globalData.isRegistered = true;
+      
+      // 获取手机号成功后进行验证和跳转
+      this.handleLoginSuccess(phoneNumber);
+    }
+  },
+
+  // 修改手动注册方法
   handleManualRegister() {
     const { manualPhoneNumber, verificationCode } = this.data;
     
@@ -111,65 +164,8 @@ Page({
       return;
     }
 
-    // TODO: 调用注册接口
+    // 手动注册成功后进行验证和跳转
     this.register(manualPhoneNumber);
-  },
-
-  // 保持原有方法并扩展...
-  handleUserProfile(e) {
-    if (this.data.isLoading) return;
-    
-    this.setData({ isLoading: true });
-
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: (res) => {
-        wx.setStorageSync('userInfo', res.userInfo);
-        
-        app.globalData.userInfo = res.userInfo;
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        });
-
-        wx.showToast({
-          title: '登录成功',
-          icon: 'success'
-        });
-
-        // 获取微信手机号
-        this.showGetPhoneNumber();
-      },
-      fail: (err) => {
-        console.error('获取用户信息失败：', err);
-        wx.showToast({
-          title: '获取用户信息失败',
-          icon: 'none'
-        });
-      },
-      complete: () => {
-        this.setData({ isLoading: false });
-      }
-    });
-  },
-
-  register(phoneNumber) {
-    // TODO: 实现注册逻辑
-    console.log('注册用户，手机号：', phoneNumber);
-    
-    // 保存注册状态
-    wx.setStorageSync('isRegistered', true);
-    
-    this.setData({
-      isRegistered: true,
-      showRegister: false,
-      phoneNumber: phoneNumber
-    });
-
-    wx.showToast({
-      title: '注册成功',
-      icon: 'success'
-    });
   }
 
   // 保持其他原有方法...
