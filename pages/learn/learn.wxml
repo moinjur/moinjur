@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="daily-tip">
+    <text class="tip-title">{{dailyTips.title}}</text>
+    <text class="tip-content">{{dailyTips.content}}</text>
+  </view>
+
+  <view class="course-list">
+    <view class="course-item" 
+          wx:for="{{courses}}" 
+          wx:key="id" 
+          bindtap="onCourseTap" 
+          data-id="{{item.id}}">
+      <image class="course-cover" src="{{item.coverImage}}" mode="aspectFill"></image>
+      <view class="course-info">
+        <text class="course-title">{{item.title}}</text>
+        <view class="course-progress">
+          <progress percent="{{item.progress/item.lessons*100}}" 
+                    stroke-width="4" 
+                    color="#1AAD19" 
+                    backgroundColor="#eee"/>
+          <text class="progress-text">{{item.progress}}/{{item.lessons}}课</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

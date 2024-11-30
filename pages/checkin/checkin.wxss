@@ -1,0 +1,94 @@
+.header {
+  padding: 40rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.streak-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.streak-number {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1AAD19;
+}
+
+.streak-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.checkin-btn {
+  background: #1AAD19;
+  color: #fff;
+  padding: 20rpx 40rpx;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+}
+
+.checkin-btn.checked {
+  background: #999;
+}
+
+.task-list {
+  padding: 20rpx;
+}
+
+.task-item {
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid #1AAD19;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.checkbox.checked {
+  background: #1AAD19;
+  position: relative;
+}
+
+.checkbox.checked::after {
+  content: '';
+  position: absolute;
+  width: 20rpx;
+  height: 10rpx;
+  border-left: 4rpx solid #fff;
+  border-bottom: 4rpx solid #fff;
+  transform: rotate(-45deg);
+  top: 10rpx;
+  left: 8rpx;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-name {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.task-description {
+  font-size: 28rpx;
+  color: #666;
+}

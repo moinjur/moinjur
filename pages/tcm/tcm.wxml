@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="categories">
+    <view class="category-item" wx:for="{{categories}}" wx:key="id" bindtap="onCategoryTap" data-id="{{item.id}}">
+      <image class="category-icon" src="{{item.icon}}" mode="aspectFit"></image>
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="article-list">
+    <view class="article-item" wx:for="{{currentArticles}}" wx:key="id">
+      <image class="article-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+      <view class="article-info">
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+      </view>
+    </view>
+  </view>
+</view>

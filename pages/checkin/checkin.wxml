@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="header">
+    <view class="streak-info">
+      <text class="streak-number">{{streak}}</text>
+      <text class="streak-text">连续打卡天数</text>
+    </view>
+    <button class="checkin-btn {{todayChecked ? 'checked' : ''}}" bindtap="onCheckIn">
+      {{todayChecked ? '已打卡' : '打卡'}}
+    </button>
+  </view>
+
+  <view class="task-list">
+    <view class="task-item" wx:for="{{tasks}}" wx:key="id">
+      <view class="task-content" bindtap="onTaskComplete" data-id="{{item.id}}">
+        <view class="checkbox {{item.isCompleted ? 'checked' : ''}}"></view>
+        <view class="task-info">
+          <text class="task-name">{{item.name}}</text>
+          <text class="task-description">{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

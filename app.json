@@ -1,13 +1,47 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/tcm/tcm",
+    "pages/checkin/checkin",
+    "pages/learn/learn"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Demo1",
+    "navigationBarTitleText": "食元养生",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1AAD19",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/tcm/tcm",
+        "text": "中医养生",
+        "iconPath": "assets/icons/tcm.png",
+        "selectedIconPath": "assets/icons/tcm-active.png"
+      },
+      {
+        "pagePath": "pages/checkin/checkin",
+        "text": "打卡",
+        "iconPath": "assets/icons/checkin.png",
+        "selectedIconPath": "assets/icons/checkin-active.png"
+      },
+      {
+        "pagePath": "pages/learn/learn",
+        "text": "学习",
+        "iconPath": "assets/icons/learn.png",
+        "selectedIconPath": "assets/icons/learn-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
