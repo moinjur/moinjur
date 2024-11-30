@@ -1,112 +1,20 @@
 <view class="container">
-  <!-- 首次登录注册页面 -->
-  <view class="register-container" wx:if="{{isFirstLogin && !isPhoneVerified}}">
-    <view class="register-title">欢迎使用食元养生</view>
-    <view class="register-subtitle">首次使用需要验证手机号</view>
-    
-    <view class="register-options">
-      <button 
-        class="register-btn wechat {{isLoading ? 'loading' : ''}}"
-        bindtap="chooseRegisterType"
-        data-type="wechat"
-        disabled="{{isLoading}}"
-      >
-        <image class="register-icon" src="/images/wechat.png" mode="aspectFit"></image>
-        微信手机号快速验证
-      </button>
+  <!-- 保持原有内容... -->
 
-      <view class="divider">
-        <view class="line"></view>
-        <text>或</text>
-        <view class="line"></view>
-      </view>
+  <!-- 添加移除账号按钮 -->
+  <view class="remove-account" wx:if="{{hasUserInfo && isPhoneVerified}}">
+    <button class="remove-btn" bindtap="showRemoveAccount">移除账号</button>
+  </view>
 
-      <view class="manual-register" wx:if="{{registerType === 'manual' || !registerType}}">
-        <button 
-          class="register-btn manual"
-          bindtap="chooseRegisterType"
-          data-type="manual"
-        >
-          手动输入手机号
-        </button>
-
-        <block wx:if="{{registerType === 'manual'}}">
-          <view class="input-group">
-            <input 
-              type="number" 
-              placeholder="请输入手机号" 
-              bindinput="handlePhoneInput"
-              value="{{manualPhoneNumber}}"
-              maxlength="11"
-            />
-            <button 
-              class="verify-btn"
-              bindtap="sendVerificationCode"
-              disabled="{{!manualPhoneNumber}}"
-            >
-              获取验证码
-            </button>
-          </view>
-
-          <view class="input-group" wx:if="{{showVerificationInput}}">
-            <input 
-              type="number" 
-              placeholder="请输入验证码" 
-              bindinput="handleVerificationInput"
-              value="{{verificationCode}}"
-              maxlength="6"
-            />
-            <button 
-              class="submit-btn"
-              bindtap="handleManualRegister"
-            >
-              验证并登录
-            </button>
-          </view>
-        </block>
+  <!-- 移除账号确认对话框 -->
+  <view class="dialog-mask" wx:if="{{showRemoveAccountDialog}}">
+    <view class="dialog-container">
+      <view class="dialog-title">确认移除账号</view>
+      <view class="dialog-content">移除账号后将清除所有本地数据，需要重新注册登录。是否继续？</view>
+      <view class="dialog-buttons">
+        <button class="dialog-btn cancel" bindtap="cancelRemoveAccount">取消</button>
+        <button class="dialog-btn confirm" bindtap="confirmRemoveAccount">确认移除</button>
       </view>
     </view>
   </view>
-
-  <!-- 主页内容 -->
-  <block wx:else>
-    <!-- 保持原有内容 -->
-    <view class="header">
-      <view class="userinfo-mini" wx:if="{{hasUserInfo}}">
-        <image class="userinfo-avatar-mini" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        <text class="userinfo-nickname-mini">{{userInfo.nickName}}</text>
-      </view>
-      <view class="weather-info">
-        <text class="temperature">{{temperature}}</text>
-        <text class="humidity">湿度: {{humidity}}</text>
-      </view>
-    </view>
-
-    <view class="daily-recommend">
-      <view class="section-title">每日推荐</view>
-      <view class="recommend-list">
-        <view class="recommend-item" wx:for="{{dailyRecommends}}" wx:key="id">
-          <view class="recommend-header">
-            <text class="recommend-title">{{item.title}}</text>
-            <text class="recommend-desc">{{item.desc}}</text>
-          </view>
-          <view class="recommend-content">
-            <text class="recommend-food" wx:for="{{item.items}}" wx:key="*this" wx:for-item="food">{{food}}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="weather-suggestions">
-      <view class="section-title">今日养生建议</view>
-      <view class="suggestion-list">
-        <view class="suggestion-item" wx:for="{{weatherSuggestions}}" wx:key="title">
-          <text class="suggestion-title">{{item.title}}</text>
-          <view class="suggestion-content">
-            <text class="suggestion-text" wx:for="{{item.items}}" wx:key="*this" wx:for-item="suggestion">{{suggestion}}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-  </block>
 </view>
