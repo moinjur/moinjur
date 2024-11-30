@@ -21,15 +21,25 @@
         <open-data type="userNickName"></open-data>
       </block>
       <block wx:elif="{{!hasUserInfo}}">
-        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-        <button bindtap="handleLogin">微信登录</button>
+        <button 
+          class="auth-btn {{isLoading ? 'loading' : ''}}" 
+          wx:if="{{canIUseGetUserProfile}}" 
+          bindtap="getUserProfile"
+          disabled="{{isLoading}}"
+        > 
+          {{isLoading ? '登录中...' : '微信一键登录'}}
+        </button>
       </block>
     </view>
   </view>
 
   <!-- 手机号注册区域 -->
   <view class="register-section" wx:if="{{hasUserInfo && !isRegistered}}">
-    <button class="phone-button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+    <button 
+      class="phone-button" 
+      open-type="getPhoneNumber" 
+      bindgetphonenumber="getPhoneNumber"
+    >
       使用手机号快速注册
     </button>
   </view>

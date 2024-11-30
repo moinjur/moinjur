@@ -10,10 +10,10 @@ Page({
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'),
     isRegistered: false,
     phoneNumber: '',
-    // 新增数据
     location: '',
     temperature: '',
     humidity: '',
+    isLoading: false,
     dailyRecommends: [
       {
         id: 1,
@@ -32,25 +32,84 @@ Page({
       });
     }
 
-    // 检查是否已有用户信息
-    if (app.globalData.userInfo) {
+    // 检查本地存储的用户信息
+    const storedUserInfo = wx.getStorageSync('userInfo');
+    if (storedUserInfo) {
       this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true,
-        isRegistered: app.globalData.isRegistered,
-        phoneNumber: app.globalData.phoneNumber
+        userInfo: storedUserInfo,
+        hasUserInfo: true
       });
-    } else {
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        });
-      };
+      app.globalData.userInfo = storedUserInfo;
     }
 
     // 获取位置和天气信息
     this.getLocation();
+  },
+
+  getUserProfile(e) {
+    // 设置加载状态
+    this.setData({ isLoading: true });
+
+    wx.getUserProfile({
+      desc: '用于完善用户资料',
+      success: (res) => {
+        // 保存到本地存储
+        wx.setStorageSync('userInfo', res.userInfo);
+        
+        app.globalData.userInfo = res.userInfo;
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        });
+
+        // 登录成功提示
+        wx.showToast({
+          title: '登录成功',
+          icon: 'success'
+        });
+
+        // 获取手机号
+        this.getPhoneNumber();
+      },
+      fail: (err) => {
+        console.error('获取用户信息失败：', err);
+        wx.showToast({
+          title: '获取用户信息失败',
+          icon: 'none'
+        });
+      },
+      complete: () => {
+        // 完成后关闭加载状态
+        this.setData({ isLoading: false });
+      }
+    });
+  },
+
+  getPhoneNumber(e) {
+    if (e && e.detail.errMsg === 'getPhoneNumber:ok') {
+      const phoneNumber = e.detail.phoneNumber;
+      this.setData({
+        phoneNumber: phoneNumber,
+        isRegistered: true
+      });
+      app.globalData.phoneNumber = phoneNumber;
+      app.globalData.isRegistered = true;
+      this.register(phoneNumber);
+    }
+  },
+
+  register(phoneNumber) {
+    console.log('注册用户，手机号：', phoneNumber);
+    wx.showToast({
+      title: '注册成功',
+      icon: 'success'
+    });
+  },
+
+  handleLogin() {
+    if (!this.data.hasUserInfo) {
+      this.getUserProfile();
+    }
   },
 
   // 获取位置信息
@@ -78,7 +137,6 @@ Page({
   // 获取天气信息
   getWeather(latitude, longitude) {
     // TODO: 调用天气API
-    // 这里使用模拟数据
     this.setData({
       temperature: '25°C',
       humidity: '65%',
@@ -113,49 +171,5 @@ Page({
     }];
 
     this.setData({ dailyRecommends });
-  },
-
-  getUserProfile(e) {
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: (res) => {
-        app.globalData.userInfo = res.userInfo;
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        });
-        this.getPhoneNumber();
-      },
-      fail: (err) => {
-        console.error('获取用户信息失败：', err);
-      }
-    });
-  },
-
-  getPhoneNumber(e) {
-    if (e && e.detail.errMsg === 'getPhoneNumber:ok') {
-      const phoneNumber = e.detail.phoneNumber;
-      this.setData({
-        phoneNumber: phoneNumber,
-        isRegistered: true
-      });
-      app.globalData.phoneNumber = phoneNumber;
-      app.globalData.isRegistered = true;
-      this.register(phoneNumber);
-    }
-  },
-
-  register(phoneNumber) {
-    console.log('注册用户，手机号：', phoneNumber);
-    wx.showToast({
-      title: '注册成功',
-      icon: 'success'
-    });
-  },
-
-  handleLogin() {
-    if (!this.data.hasUserInfo) {
-      app.login();
-    }
   }
 });
