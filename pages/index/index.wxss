@@ -16,3 +16,18 @@
 .usermotto {
   margin-top: 200px;
 }
+
+.phone-button {
+  margin-top: 20rpx;
+  background-color: #1aad19;
+  color: #fff;
+  font-size: 28rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 10rpx;
+}
+
+.phone-number {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}

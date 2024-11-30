@@ -7,7 +7,9 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
-    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName')
+    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'),
+    isRegistered: false,
+    phoneNumber: ''
   },
 
   onLoad() {
@@ -21,7 +23,9 @@ Page({
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        hasUserInfo: true,
+        isRegistered: app.globalData.isRegistered,
+        phoneNumber: app.globalData.phoneNumber
       });
     } else {
       app.userInfoReadyCallback = res => {
@@ -42,10 +46,35 @@ Page({
           userInfo: res.userInfo,
           hasUserInfo: true
         });
+        // 获取手机号
+        this.getPhoneNumber();
       },
       fail: (err) => {
         console.error('获取用户信息失败：', err);
       }
+    });
+  },
+
+  getPhoneNumber(e) {
+    if (e && e.detail.errMsg === 'getPhoneNumber:ok') {
+      const phoneNumber = e.detail.phoneNumber;
+      this.setData({
+        phoneNumber: phoneNumber,
+        isRegistered: true
+      });
+      app.globalData.phoneNumber = phoneNumber;
+      app.globalData.isRegistered = true;
+      // TODO: 调用注册接口
+      this.register(phoneNumber);
+    }
+  },
+
+  register(phoneNumber) {
+    // TODO: 实现注册逻辑
+    console.log('注册用户，手机号：', phoneNumber);
+    wx.showToast({
+      title: '注册成功',
+      icon: 'success'
     });
   },
 
