@@ -1,3 +1,102 @@
+/* 新增注册相关样式 */
+.register-container {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.register-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.register-subtitle {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 60rpx;
+}
+
+.register-options {
+  width: 100%;
+}
+
+.register-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-btn.wechat {
+  background: #1aad19;
+  color: #fff;
+}
+
+.register-btn.manual {
+  background: #fff;
+  color: #333;
+  border: 2rpx solid #ddd;
+}
+
+.register-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 10rpx;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 40rpx 0;
+}
+
+.divider .line {
+  flex: 1;
+  height: 2rpx;
+  background: #eee;
+}
+
+.divider text {
+  color: #999;
+  padding: 0 20rpx;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.input-group input {
+  flex: 1;
+  height: 88rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 44rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  margin-right: 20rpx;
+}
+
+.verify-btn, .submit-btn {
+  width: 200rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  background: #1aad19;
+  color: #fff;
+}
+
+.verify-btn[disabled] {
+  background: #999;
+}
+
+/* 保持原有样式 */
 .header {
   width: 100%;
   padding: 20rpx;
@@ -70,22 +169,6 @@
 
 .auth-btn.loading {
   background: #999;
-  color: #fff;
-}
-
-.phone-button {
-  margin-top: 20rpx;
-  background-color: #1aad19;
-  color: #fff;
-  font-size: 28rpx;
-  padding: 10rpx 30rpx;
-  border-radius: 10rpx;
-}
-
-.phone-number {
-  margin-top: 20rpx;
-  font-size: 28rpx;
-  color: #666;
 }
 
 .daily-recommend {

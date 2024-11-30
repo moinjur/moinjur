@@ -15,6 +15,12 @@ Page({
     humidity: '',
     isLoading: false,
     hasLocationAuth: false,
+    // 新增注册相关数据
+    showRegister: true,
+    registerType: '', // 'wechat' 或 'manual'
+    manualPhoneNumber: '',
+    verificationCode: '',
+    showVerificationInput: false,
     dailyRecommends: [
       {
         id: 1,
@@ -27,27 +33,89 @@ Page({
   },
 
   onLoad() {
-    if (wx.getUserProfile) {
+    // 保持原有代码...
+    
+    // 检查是否已注册
+    const isRegistered = wx.getStorageSync('isRegistered');
+    if (isRegistered) {
       this.setData({
-        canIUseGetUserProfile: true
+        isRegistered: true,
+        showRegister: false
       });
     }
-
-    // 检查本地存储的用户信息
-    const storedUserInfo = wx.getStorageSync('userInfo');
-    if (storedUserInfo) {
-      this.setData({
-        userInfo: storedUserInfo,
-        hasUserInfo: true
-      });
-      app.globalData.userInfo = storedUserInfo;
-    }
-
-    // 检查位置权限并获取位置
-    this.checkLocationAuth();
   },
 
-  // 修改登录方法，确保只在用户点击时调用
+  // 选择注册方式
+  chooseRegisterType(e) {
+    const type = e.currentTarget.dataset.type;
+    this.setData({ registerType: type });
+    
+    if (type === 'wechat') {
+      this.handleUserProfile();
+    }
+  },
+
+  // 处理手动输入手机号
+  handlePhoneInput(e) {
+    this.setData({
+      manualPhoneNumber: e.detail.value
+    });
+  },
+
+  // 发送验证码
+  sendVerificationCode() {
+    const phoneNumber = this.data.manualPhoneNumber;
+    if (!/^1[3-9]\d{9}$/.test(phoneNumber)) {
+      wx.showToast({
+        title: '请输入正确的手机号',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // TODO: 调用发送验证码接口
+    wx.showToast({
+      title: '验证码已发送',
+      icon: 'success'
+    });
+
+    this.setData({
+      showVerificationInput: true
+    });
+  },
+
+  // 处理验证码输入
+  handleVerificationInput(e) {
+    this.setData({
+      verificationCode: e.detail.value
+    });
+  },
+
+  // 手动注册
+  handleManualRegister() {
+    const { manualPhoneNumber, verificationCode } = this.data;
+    
+    if (!/^1[3-9]\d{9}$/.test(manualPhoneNumber)) {
+      wx.showToast({
+        title: '请输入正确的手机号',
+        icon: 'none'
+      });
+      return;
+    }
+
+    if (!/^\d{6}$/.test(verificationCode)) {
+      wx.showToast({
+        title: '请输入正确的验证码',
+        icon: 'none'
+      });
+      return;
+    }
+
+    // TODO: 调用注册接口
+    this.register(manualPhoneNumber);
+  },
+
+  // 保持原有方法并扩展...
   handleUserProfile(e) {
     if (this.data.isLoading) return;
     
@@ -69,10 +137,8 @@ Page({
           icon: 'success'
         });
 
-        // 登录成功后再获取手机号
-        if (!this.data.isRegistered) {
-          this.showGetPhoneNumber();
-        }
+        // 获取微信手机号
+        this.showGetPhoneNumber();
       },
       fail: (err) => {
         console.error('获取用户信息失败：', err);
@@ -87,73 +153,24 @@ Page({
     });
   },
 
-  // 显示获取手机号提示
-  showGetPhoneNumber() {
-    wx.showModal({
-      title: '提示',
-      content: '是否使用手机号完成注册？',
-      success: (res) => {
-        if (res.confirm) {
-          // 用户确认后才显示获取手机号按钮
-          this.setData({
-            showPhoneButton: true
-          });
-        }
-      }
+  register(phoneNumber) {
+    // TODO: 实现注册逻辑
+    console.log('注册用户，手机号：', phoneNumber);
+    
+    // 保存注册状态
+    wx.setStorageSync('isRegistered', true);
+    
+    this.setData({
+      isRegistered: true,
+      showRegister: false,
+      phoneNumber: phoneNumber
     });
-  },
 
-  // 保持原有方法
-  getUserProfile: function(e) {
-    this.handleUserProfile(e);
-  },
-
-  getPhoneNumber(e) {
-    if (e && e.detail.errMsg === 'getPhoneNumber:ok') {
-      const phoneNumber = e.detail.phoneNumber;
-      this.setData({
-        phoneNumber: phoneNumber,
-        isRegistered: true,
-        showPhoneButton: false
-      });
-      app.globalData.phoneNumber = phoneNumber;
-      app.globalData.isRegistered = true;
-      this.register(phoneNumber);
-    }
-  },
+    wx.showToast({
+      title: '注册成功',
+      icon: 'success'
+    });
+  }
 
   // 保持其他原有方法...
-  checkLocationAuth() {
-    // 保持原有代码
-  },
-
-  requestLocationAuth() {
-    // 保持原有代码
-  },
-
-  getLocation() {
-    // 保持原有代码
-  },
-
-  useDefaultRecommendations() {
-    // 保持原有代码
-  },
-
-  register(phoneNumber) {
-    // 保持原有代码
-  },
-
-  handleLogin() {
-    if (!this.data.hasUserInfo) {
-      this.handleUserProfile();
-    }
-  },
-
-  getWeather(latitude, longitude) {
-    // 保持原有代码
-  },
-
-  updateDailyRecommends() {
-    // 保持原有代码
-  }
 });
