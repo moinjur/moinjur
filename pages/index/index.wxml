@@ -1,29 +1,65 @@
 <view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button bindtap="handleLogin">微信登录</button>
-    </block>
-    <block wx:else>
-      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <block wx:if="{{!isRegistered}}">
-        <button class="phone-button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-          使用手机号快速注册
-        </button>
-      </block>
-      <block wx:else>
-        <text class="phone-number">手机号: {{phoneNumber}}</text>
-      </block>
-    </block>
+  <!-- 顶部用户信息 -->
+  <view class="header">
+    <view class="userinfo-mini" wx:if="{{hasUserInfo}}">
+      <image class="userinfo-avatar-mini" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname-mini">{{userInfo.nickName}}</text>
+    </view>
+    <view class="weather-info">
+      <text class="temperature">{{temperature}}</text>
+      <text class="humidity">湿度: {{humidity}}</text>
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+
+  <!-- 登录区域 -->
+  <view class="login-section" wx:if="{{!hasUserInfo}}">
+    <view class="userinfo">
+      <block wx:if="{{canIUseOpenData}}">
+        <view class="userinfo-avatar">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+        <open-data type="userNickName"></open-data>
+      </block>
+      <block wx:elif="{{!hasUserInfo}}">
+        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+        <button bindtap="handleLogin">微信登录</button>
+      </block>
+    </view>
+  </view>
+
+  <!-- 手机号注册区域 -->
+  <view class="register-section" wx:if="{{hasUserInfo && !isRegistered}}">
+    <button class="phone-button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+      使用手机号快速注册
+    </button>
+  </view>
+
+  <!-- 每日推荐 -->
+  <view class="daily-recommend">
+    <view class="section-title">每日推荐</view>
+    <view class="recommend-list">
+      <view class="recommend-item" wx:for="{{dailyRecommends}}" wx:key="id">
+        <view class="recommend-header">
+          <text class="recommend-title">{{item.title}}</text>
+          <text class="recommend-desc">{{item.desc}}</text>
+        </view>
+        <view class="recommend-content">
+          <text class="recommend-food" wx:for="{{item.items}}" wx:key="*this" wx:for-item="food">{{food}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 天气建议 -->
+  <view class="weather-suggestions">
+    <view class="section-title">今日养生建议</view>
+    <view class="suggestion-list">
+      <view class="suggestion-item" wx:for="{{weatherSuggestions}}" wx:key="title">
+        <text class="suggestion-title">{{item.title}}</text>
+        <view class="suggestion-content">
+          <text class="suggestion-text" wx:for="{{item.items}}" wx:key="*this" wx:for-item="suggestion">{{suggestion}}</text>
+        </view>
+      </view>
+    </view>
   </view>
 </view>
