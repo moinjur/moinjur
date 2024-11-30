@@ -6,21 +6,21 @@ Page({
         title: '中医基础理论',
         lessons: 12,
         progress: 0,
-        coverImage: '/assets/images/tcm-basic.png'
+        coverImage: '/images/tabbar/tcm.png'
       },
       {
         id: 2,
         title: '经络穴位入门',
         lessons: 8,
         progress: 0,
-        coverImage: '/assets/images/meridian-basic.png'
+        coverImage: '/images/tabbar/tcm.png'
       },
       {
         id: 3,
         title: '四季养生方法',
         lessons: 10,
         progress: 0,
-        coverImage: '/assets/images/season-health.png'
+        coverImage: '/images/tabbar/tcm.png'
       }
     ],
     dailyTips: {

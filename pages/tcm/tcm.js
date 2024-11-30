@@ -4,19 +4,19 @@ Page({
       {
         id: 1,
         name: '四季养生',
-        icon: '/assets/icons/seasons.png',
+        icon: '/images/tabbar/tcm.png',
         articles: []
       },
       {
         id: 2,
         name: '饮食养生',
-        icon: '/assets/icons/diet.png',
+        icon: '/images/tabbar/tcm.png',
         articles: []
       },
       {
         id: 3,
         name: '经络养生',
-        icon: '/assets/icons/meridian.png',
+        icon: '/images/tabbar/tcm.png',
         articles: []
       }
     ],
@@ -34,7 +34,7 @@ Page({
         id: 1,
         title: '春季养生要点',
         summary: '春季养生重在养肝...',
-        imageUrl: '/assets/images/spring.png'
+        imageUrl: '/images/tabbar/tcm.png'
       }
     ];
     
