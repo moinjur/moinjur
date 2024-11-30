@@ -4,12 +4,13 @@
     "pages/logs/logs",
     "pages/tcm/tcm",
     "pages/checkin/checkin",
-    "pages/learn/learn"
+    "pages/learn/learn",
+    "pages/travel/travel"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "食元养生",
+    "navigationBarTitleText": "智能旅行助手",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -22,6 +23,12 @@
         "text": "首页",
         "iconPath": "/images/tabbar/home.png",
         "selectedIconPath": "/images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/travel/travel",
+        "text": "旅行",
+        "iconPath": "/images/tabbar/travel.png",
+        "selectedIconPath": "/images/tabbar/travel-active.png"
       },
       {
         "pagePath": "pages/tcm/tcm",
@@ -45,7 +52,7 @@
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "您的位置信息将用于获取天气情况和养生推荐"
+      "desc": "您的位置信息将用于获取天气情况和旅行建议"
     }
   },
   "requiredPrivateInfos": [
