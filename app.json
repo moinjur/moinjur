@@ -2,9 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/tcm/tcm",
-    "pages/checkin/checkin",
-    "pages/learn/learn",
     "pages/travel/travel"
   ],
   "window": {
@@ -29,24 +26,6 @@
         "text": "旅行",
         "iconPath": "/images/tabbar/travel.png",
         "selectedIconPath": "/images/tabbar/travel-active.png"
-      },
-      {
-        "pagePath": "pages/tcm/tcm",
-        "text": "中医养生",
-        "iconPath": "/images/tabbar/tcm.png",
-        "selectedIconPath": "/images/tabbar/tcm-active.png"
-      },
-      {
-        "pagePath": "pages/checkin/checkin",
-        "text": "打卡",
-        "iconPath": "/images/tabbar/checkin.png",
-        "selectedIconPath": "/images/tabbar/checkin-active.png"
-      },
-      {
-        "pagePath": "pages/learn/learn",
-        "text": "学习",
-        "iconPath": "/images/tabbar/learn.png",
-        "selectedIconPath": "/images/tabbar/learn-active.png"
       }
     ]
   },
