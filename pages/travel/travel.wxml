@@ -1,5 +1,20 @@
 <view class="container">
-  <!-- 保持原有内容... -->
+  <!-- 图片上传区域 -->
+  <view class="upload-section">
+    <view class="upload-area" bindtap="chooseImage" wx:if="{{!imageUrl}}">
+      <image class="upload-icon" src="/images/upload.png" mode="aspectFit"></image>
+      <text class="upload-text">点击上传图片</text>
+    </view>
+    <view class="image-preview" wx:else>
+      <image src="{{imageUrl}}" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <!-- 加载动画 -->
+  <view class="loading" wx:if="{{isAnalyzing}}">
+    <view class="loading-icon"></view>
+    <text class="loading-text">正在分析图片...</text>
+  </view>
 
   <!-- 图片内容分析结果 -->
   <view class="image-analysis-section" wx:if="{{showImageAnalysis}}">
@@ -33,5 +48,43 @@
     </view>
   </view>
 
-  <!-- 保持原有内容... -->
+  <!-- 识别结果 -->
+  <view class="result-section" wx:if="{{imageInfo && !isAnalyzing}}">
+    <view class="result-item">
+      <text class="result-label">拍摄日期：</text>
+      <text class="result-value">{{recognizedDate}}</text>
+    </view>
+    <view class="result-item">
+      <text class="result-label">拍摄地点：</text>
+      <text class="result-value">{{recognizedLocation}}</text>
+    </view>
+  </view>
+
+  <!-- 旅行建议 -->
+  <view class="suggestions-section" wx:if="{{travelSuggestions.length > 0}}">
+    <view class="section-title">旅行建议</view>
+    <view class="suggestion-list">
+      <view class="suggestion-item" wx:for="{{travelSuggestions}}" wx:key="*this">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 交通选项 -->
+  <view class="transportation-section" wx:if="{{transportationOptions.length > 0}}">
+    <view class="section-title">交通方案</view>
+    <view class="transportation-list">
+      <view class="transportation-item" 
+            wx:for="{{transportationOptions}}" 
+            wx:key="type"
+            bindtap="viewTransportation"
+            data-index="{{index}}">
+        <view class="transport-type">{{item.type}}</view>
+        <view class="transport-info">
+          <text class="transport-route">{{item.route}}</text>
+          <text class="transport-duration">{{item.duration}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

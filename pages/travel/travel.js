@@ -1,6 +1,13 @@
 Page({
   data: {
-    // 保持原有数据...
+    imageUrl: '',
+    imageInfo: null,
+    travelSuggestions: [],
+    isAnalyzing: false,
+    recognizedDate: '',
+    recognizedLocation: '',
+    transportationOptions: [],
+    // 新增图片内容相关数据
     imageContent: {
       landmarks: [], // 地标建筑
       scenery: [], // 自然景观
@@ -12,7 +19,73 @@ Page({
     showImageAnalysis: false
   },
 
-  // 保持原有方法...
+  // 选择图片
+  chooseImage() {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const tempFilePath = res.tempFilePaths[0];
+        this.setData({
+          imageUrl: tempFilePath,
+          isAnalyzing: true
+        });
+        this.analyzeImage(tempFilePath);
+      }
+    });
+  },
+
+  // 分析图片
+  async analyzeImage(filePath) {
+    try {
+      // 分析图片内容
+      this.analyzeImageContent(filePath);
+      
+      // 保持原有的位置和日期识别代码...
+      setTimeout(() => {
+        const mockResult = {
+          date: '2024-03-15',
+          location: '杭州西湖',
+          suggestions: [
+            '春季游玩建议带伞',
+            '建议选择公共交通',
+            '景区人流量较大'
+          ],
+          transportation: [
+            {
+              type: '地铁',
+              route: '地铁1号线到龙翔桥站',
+              duration: '约30分钟'
+            },
+            {
+              type: '公交',
+              route: '游5路到苏堤站',
+              duration: '约45分钟'
+            }
+          ]
+        };
+
+        this.setData({
+          imageInfo: mockResult,
+          recognizedDate: mockResult.date,
+          recognizedLocation: mockResult.location,
+          travelSuggestions: mockResult.suggestions,
+          transportationOptions: mockResult.transportation,
+          isAnalyzing: false,
+          showCustomize: true
+        });
+      }, 2000);
+
+    } catch (error) {
+      console.error('图片分析失败：', error);
+      wx.showToast({
+        title: '图片分析失败',
+        icon: 'none'
+      });
+      this.setData({ isAnalyzing: false });
+    }
+  },
 
   // 分析图片内容
   analyzeImageContent(filePath) {
@@ -56,20 +129,15 @@ Page({
     this.requestAiAnalysis();
   },
 
-  // 修改原有的analyzeImage方法
-  async analyzeImage(filePath) {
-    try {
-      // 分析图片内容
-      this.analyzeImageContent(filePath);
-      
-      // 保持原有的位置和日期识别代码...
-    } catch (error) {
-      console.error('图片分析失败：', error);
-      wx.showToast({
-        title: '图片分析失败',
-        icon: 'none'
-      });
-      this.setData({ isAnalyzing: false });
-    }
+  // 查看交通详情
+  viewTransportation(e) {
+    const index = e.currentTarget.dataset.index;
+    const option = this.data.transportationOptions[index];
+    
+    wx.showModal({
+      title: option.type + '路线',
+      content: `路线：${option.route}\n预计用时：${option.duration}`,
+      showCancel: false
+    });
   }
 });
