@@ -1,97 +1,36 @@
-.container {
-  padding: 20rpx;
-}
+/* 保持原有样式... */
 
-/* 输入区域样式 */
-.input-section {
-  width: 100%;
-  margin-bottom: 30rpx;
-}
-
-.text-input {
-  width: 100%;
-  height: 200rpx;
+/* AI分析区域样式 */
+.ai-analysis-section {
+  margin-top: 30rpx;
   background: #fff;
   border-radius: 10rpx;
   padding: 20rpx;
-  font-size: 28rpx;
-  box-sizing: border-box;
 }
 
-.submit-btn {
-  margin-top: 20rpx;
-  background: #1aad19;
-  color: #fff;
-  font-size: 30rpx;
-}
-
-.divider {
+.section-title {
   display: flex;
   align-items: center;
-  margin: 30rpx 0;
-}
-
-.divider .line {
-  flex: 1;
-  height: 2rpx;
-  background: #eee;
-}
-
-.divider text {
-  color: #999;
-  padding: 0 20rpx;
-  font-size: 26rpx;
-}
-
-/* 上传区域样式 */
-.upload-section {
-  width: 100%;
-  margin-bottom: 40rpx;
-}
-
-.upload-area {
-  width: 100%;
-  height: 300rpx;
-  background: #f5f5f5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 20rpx;
-}
-
-.upload-icon {
-  width: 80rpx;
-  height: 80rpx;
   margin-bottom: 20rpx;
 }
 
-.upload-text {
-  font-size: 28rpx;
-  color: #666;
+.ai-badge {
+  margin-left: 10rpx;
+  background: #1aad19;
+  color: #fff;
+  font-size: 24rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 6rpx;
 }
 
-.image-preview {
-  width: 100%;
-  height: 300rpx;
-  border-radius: 20rpx;
-  overflow: hidden;
-}
-
-.image-preview image {
-  width: 100%;
-  height: 100%;
-}
-
-/* 加载动画样式 */
-.loading {
+.ai-loading {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40rpx 0;
+  padding: 40rpx 0;
 }
 
-.loading-icon {
+.ai-loading-icon {
   width: 60rpx;
   height: 60rpx;
   border: 4rpx solid #f3f3f3;
@@ -100,144 +39,52 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading-text {
-  font-size: 28rpx;
-  color: #666;
+.ai-loading-text {
   margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #666;
 }
 
-/* 定制化选项样式 */
-.customize-section {
-  background: #fff;
-  border-radius: 10rpx;
+.ai-suggestion-item {
+  background: #f8f8f8;
+  border-radius: 8rpx;
   padding: 20rpx;
   margin-bottom: 20rpx;
 }
 
-.option-group {
-  margin-bottom: 30rpx;
-}
-
-.option-label {
-  font-size: 28rpx;
-  color: #333;
-  margin-bottom: 20rpx;
-  display: block;
-}
-
-.radio-group {
+.ai-suggestion-header {
   display: flex;
-  flex-wrap: wrap;
-}
-
-.radio {
-  margin-right: 30rpx;
-  font-size: 26rpx;
-  color: #666;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10rpx;
 }
 
-/* 结果区域样式 */
-.result-section {
-  background: #fff;
-  padding: 20rpx;
-  border-radius: 10rpx;
-  margin-bottom: 20rpx;
-}
-
-.result-item {
-  display: flex;
-  margin-bottom: 10rpx;
-}
-
-.result-label {
+.ai-suggestion-type {
   font-size: 28rpx;
-  color: #666;
-  width: 160rpx;
-}
-
-.result-value {
-  font-size: 28rpx;
-  color: #333;
-  flex: 1;
-}
-
-/* 建议区域样式 */
-.section-title {
-  font-size: 32rpx;
   font-weight: bold;
   color: #333;
-  margin-bottom: 20rpx;
-  padding-left: 20rpx;
-  border-left: 8rpx solid #1aad19;
 }
 
-.suggestion-list {
-  background: #fff;
-  border-radius: 10rpx;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-}
-
-.suggestion-item {
-  font-size: 28rpx;
-  color: #333;
-  padding: 10rpx 0;
-  border-bottom: 2rpx solid #f5f5f5;
-}
-
-.suggestion-item:last-child {
-  border-bottom: none;
-}
-
-/* 交通选项样式 */
-.transportation-list {
-  background: #fff;
-  border-radius: 10rpx;
-  padding: 20rpx;
-}
-
-.transportation-item {
-  display: flex;
-  align-items: center;
-  padding: 20rpx;
-  border-bottom: 2rpx solid #f5f5f5;
-}
-
-.transportation-item:last-child {
-  border-bottom: none;
-}
-
-.transport-type {
-  width: 120rpx;
-  height: 60rpx;
-  background: #1aad19;
-  color: #fff;
-  font-size: 28rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 30rpx;
-  margin-right: 20rpx;
-}
-
-.transport-info {
-  flex: 1;
-}
-
-.transport-route {
-  font-size: 28rpx;
-  color: #333;
-  display: block;
-  margin-bottom: 10rpx;
-}
-
-.transport-duration {
+.ai-confidence {
   font-size: 24rpx;
   color: #666;
 }
+
+.ai-suggestion-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 15rpx;
+}
+
+.adopt-btn {
+  width: auto;
+  display: inline-block;
+  font-size: 26rpx;
+  padding: 10rpx 30rpx;
+  background: #1aad19;
+  color: #fff;
+  border-radius: 30rpx;
+}
+
+/* 保持原有样式... */

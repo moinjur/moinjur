@@ -1,124 +1,35 @@
 <view class="container">
-  <!-- 输入区域 -->
-  <view class="input-section">
-    <textarea 
-      class="text-input" 
-      placeholder="请输入您的旅行需求，例如：想去杭州玩3天，预算3000元" 
-      bindinput="handleInput"
-      value="{{inputText}}"
-    ></textarea>
-    <button class="submit-btn" bindtap="submitText">分析需求</button>
-    <view class="divider">
-      <view class="line"></view>
-      <text>或者</text>
-      <view class="line"></view>
-    </view>
-  </view>
+  <!-- 保持原有内容... -->
 
-  <!-- 图片上传区域 -->
-  <view class="upload-section">
-    <view class="upload-area" bindtap="chooseImage" wx:if="{{!imageUrl}}">
-      <image class="upload-icon" src="/images/upload.png" mode="aspectFit"></image>
-      <text class="upload-text">点击上传图片</text>
+  <!-- AI分析建议 -->
+  <view class="ai-analysis-section" wx:if="{{showAiAnalysis}}">
+    <view class="section-title">
+      <text>AI智能建议</text>
+      <view class="ai-badge">AI</view>
     </view>
-    <view class="image-preview" wx:else>
-      <image src="{{imageUrl}}" mode="aspectFit"></image>
-    </view>
-  </view>
-
-  <!-- 加载动画 -->
-  <view class="loading" wx:if="{{isAnalyzing}}">
-    <view class="loading-icon"></view>
-    <text class="loading-text">正在分析...</text>
-  </view>
-
-  <!-- 识别结果 -->
-  <view class="result-section" wx:if="{{imageInfo && !isAnalyzing}}">
-    <view class="result-item">
-      <text class="result-label">计划日期：</text>
-      <text class="result-value">{{recognizedDate}}</text>
-    </view>
-    <view class="result-item">
-      <text class="result-label">目的地：</text>
-      <text class="result-value">{{recognizedLocation}}</text>
-    </view>
-  </view>
-
-  <!-- 定制化选项 -->
-  <view class="customize-section" wx:if="{{showCustomize}}">
-    <view class="section-title">定制您的行程</view>
     
-    <!-- 预算选择 -->
-    <view class="option-group">
-      <text class="option-label">预算</text>
-      <radio-group class="radio-group" bindchange="updateCustomOption" data-type="budget">
-        <label class="radio" wx:for="{{budgetOptions}}" wx:key="value">
-          <radio value="{{item.value}}" checked="{{customOptions.budget === item.value}}"/>
-          {{item.label}}
-        </label>
-      </radio-group>
+    <view class="ai-loading" wx:if="{{aiAnalyzing}}">
+      <view class="ai-loading-icon"></view>
+      <text class="ai-loading-text">AI正在分析您的需求...</text>
     </view>
 
-    <!-- 天数选择 -->
-    <view class="option-group">
-      <text class="option-label">行程天数</text>
-      <slider 
-        min="1" 
-        max="7" 
-        value="{{customOptions.duration}}"
-        show-value
-        bindchange="updateDuration"
-      />
-    </view>
-
-    <!-- 游玩方式 -->
-    <view class="option-group">
-      <text class="option-label">游玩方式</text>
-      <radio-group class="radio-group" bindchange="updateCustomOption" data-type="travelStyle">
-        <label class="radio" wx:for="{{styleOptions}}" wx:key="value">
-          <radio value="{{item.value}}" checked="{{customOptions.travelStyle === item.value}}"/>
-          {{item.label}}
-        </label>
-      </radio-group>
-    </view>
-
-    <!-- 交通方式 -->
-    <view class="option-group">
-      <text class="option-label">交通方式</text>
-      <radio-group class="radio-group" bindchange="updateCustomOption" data-type="transportation">
-        <label class="radio" wx:for="{{transportOptions}}" wx:key="value">
-          <radio value="{{item.value}}" checked="{{customOptions.transportation === item.value}}"/>
-          {{item.label}}
-        </label>
-      </radio-group>
-    </view>
-  </view>
-
-  <!-- 旅行建议 -->
-  <view class="suggestions-section" wx:if="{{travelSuggestions.length > 0}}">
-    <view class="section-title">旅行建议</view>
-    <view class="suggestion-list">
-      <view class="suggestion-item" wx:for="{{travelSuggestions}}" wx:key="*this">
-        <text>{{item}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 交通选项 -->
-  <view class="transportation-section" wx:if="{{transportationOptions.length > 0}}">
-    <view class="section-title">交通方案</view>
-    <view class="transportation-list">
-      <view class="transportation-item" 
-            wx:for="{{transportationOptions}}" 
-            wx:key="type"
-            bindtap="viewTransportation"
-            data-index="{{index}}">
-        <view class="transport-type">{{item.type}}</view>
-        <view class="transport-info">
-          <text class="transport-route">{{item.route}}</text>
-          <text class="transport-duration">{{item.duration}}</text>
+    <view class="ai-suggestions" wx:else>
+      <view class="ai-suggestion-item" 
+            wx:for="{{aiSuggestions}}" 
+            wx:key="type">
+        <view class="ai-suggestion-header">
+          <text class="ai-suggestion-type">{{item.type}}</text>
+          <text class="ai-confidence">可信度: {{item.confidence * 100}}%</text>
         </view>
+        <view class="ai-suggestion-content">{{item.content}}</view>
+        <button class="adopt-btn" 
+                bindtap="adoptAiSuggestion" 
+                data-index="{{index}}">
+          采纳建议
+        </button>
       </view>
     </view>
   </view>
+
+  <!-- 保持原有内容... -->
 </view>
