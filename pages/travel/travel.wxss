@@ -2,6 +2,48 @@
   padding: 20rpx;
 }
 
+/* 输入区域样式 */
+.input-section {
+  width: 100%;
+  margin-bottom: 30rpx;
+}
+
+.text-input {
+  width: 100%;
+  height: 200rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.submit-btn {
+  margin-top: 20rpx;
+  background: #1aad19;
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 30rpx 0;
+}
+
+.divider .line {
+  flex: 1;
+  height: 2rpx;
+  background: #eee;
+}
+
+.divider text {
+  color: #999;
+  padding: 0 20rpx;
+  font-size: 26rpx;
+}
+
+/* 上传区域样式 */
 .upload-section {
   width: 100%;
   margin-bottom: 40rpx;
@@ -9,7 +51,7 @@
 
 .upload-area {
   width: 100%;
-  height: 400rpx;
+  height: 300rpx;
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -19,8 +61,8 @@
 }
 
 .upload-icon {
-  width: 100rpx;
-  height: 100rpx;
+  width: 80rpx;
+  height: 80rpx;
   margin-bottom: 20rpx;
 }
 
@@ -31,7 +73,7 @@
 
 .image-preview {
   width: 100%;
-  height: 400rpx;
+  height: 300rpx;
   border-radius: 20rpx;
   overflow: hidden;
 }
@@ -41,6 +83,7 @@
   height: 100%;
 }
 
+/* 加载动画样式 */
 .loading {
   display: flex;
   flex-direction: column;
@@ -68,6 +111,38 @@
   margin-top: 20rpx;
 }
 
+/* 定制化选项样式 */
+.customize-section {
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.option-group {
+  margin-bottom: 30rpx;
+}
+
+.option-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.radio {
+  margin-right: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+/* 结果区域样式 */
 .result-section {
   background: #fff;
   padding: 20rpx;
@@ -92,6 +167,7 @@
   flex: 1;
 }
 
+/* 建议区域样式 */
 .section-title {
   font-size: 32rpx;
   font-weight: bold;
@@ -119,6 +195,7 @@
   border-bottom: none;
 }
 
+/* 交通选项样式 */
 .transportation-list {
   background: #fff;
   border-radius: 10rpx;
