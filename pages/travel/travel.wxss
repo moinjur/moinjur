@@ -1,90 +1,49 @@
 /* 保持原有样式... */
 
-/* AI分析区域样式 */
-.ai-analysis-section {
-  margin-top: 30rpx;
+/* 图片内容分析样式 */
+.image-analysis-section {
   background: #fff;
   border-radius: 10rpx;
   padding: 20rpx;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
   margin-bottom: 20rpx;
 }
 
-.ai-badge {
-  margin-left: 10rpx;
-  background: #1aad19;
-  color: #fff;
-  font-size: 24rpx;
-  padding: 4rpx 10rpx;
-  border-radius: 6rpx;
+.content-group {
+  margin-bottom: 20rpx;
 }
 
-.ai-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40rpx 0;
-}
-
-.ai-loading-icon {
-  width: 60rpx;
-  height: 60rpx;
-  border: 4rpx solid #f3f3f3;
-  border-top: 4rpx solid #1aad19;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.ai-loading-text {
-  margin-top: 20rpx;
+.content-title {
   font-size: 28rpx;
   color: #666;
-}
-
-.ai-suggestion-item {
-  background: #f8f8f8;
-  border-radius: 8rpx;
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-}
-
-.ai-suggestion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 10rpx;
 }
 
-.ai-suggestion-type {
-  font-size: 28rpx;
-  font-weight: bold;
+.content-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content-tag {
+  background: #f5f5f5;
   color: #333;
-}
-
-.ai-confidence {
-  font-size: 24rpx;
-  color: #666;
-}
-
-.ai-suggestion-content {
-  font-size: 28rpx;
-  color: #333;
-  line-height: 1.5;
-  margin-bottom: 15rpx;
-}
-
-.adopt-btn {
-  width: auto;
-  display: inline-block;
   font-size: 26rpx;
-  padding: 10rpx 30rpx;
-  background: #1aad19;
-  color: #fff;
-  border-radius: 30rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  margin-right: 10rpx;
+  margin-bottom: 10rpx;
+}
+
+.content-info {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 20rpx;
+  border-top: 2rpx solid #f5f5f5;
+}
+
+.info-item {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 30rpx;
 }
 
 /* 保持原有样式... */

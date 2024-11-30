@@ -1,71 +1,68 @@
 Page({
   data: {
     // 保持原有数据...
-    aiSuggestions: [], // AI建议列表
-    showAiAnalysis: false, // 是否显示AI分析
-    aiAnalyzing: false // AI分析中状态
+    imageContent: {
+      landmarks: [], // 地标建筑
+      scenery: [], // 自然景观
+      activities: [], // 可能的活动
+      season: '', // 季节特征
+      timeOfDay: '', // 时间段
+      weather: '' // 天气状况
+    },
+    showImageAnalysis: false
   },
 
   // 保持原有方法...
 
-  // 请求AI分析
-  requestAiAnalysis() {
-    this.setData({ 
-      aiAnalyzing: true,
-      showAiAnalysis: true 
-    });
+  // 分析图片内容
+  analyzeImageContent(filePath) {
+    this.setData({ isAnalyzing: true });
 
-    // TODO: 调用AI分析API
+    // TODO: 调用图片内容识别API
     setTimeout(() => {
-      const mockAiSuggestions = [
-        {
-          type: '行程优化',
-          content: '根据您的预算和时间，建议将西湖游览安排在上午，可以避开人流高峰',
-          confidence: 0.9
-        },
-        {
-          type: '交通建议',
-          content: '从您的位置到西湖景区，建议选择地铁1号线，可以节省30分钟路程',
-          confidence: 0.85
-        },
-        {
-          type: '天气提醒',
-          content: '预计游玩当天有小雨，建议携带雨具，可以体验不一样的西湖美景',
-          confidence: 0.95
-        }
-      ];
+      const mockImageContent = {
+        landmarks: ['西湖', '雷峰塔', '断桥'],
+        scenery: ['湖泊', '山峦', '园林'],
+        activities: ['游船', '散步', '摄影'],
+        season: '春季',
+        timeOfDay: '下午',
+        weather: '晴朗'
+      };
 
       this.setData({
-        aiSuggestions: mockAiSuggestions,
-        aiAnalyzing: false
+        imageContent: mockImageContent,
+        showImageAnalysis: true,
+        isAnalyzing: false
       });
+
+      // 根据识别内容生成建议
+      this.generateContentBasedSuggestions(mockImageContent);
     }, 2000);
   },
 
-  // 采纳AI建议
-  adoptAiSuggestion(e) {
-    const index = e.currentTarget.dataset.index;
-    const suggestion = this.data.aiSuggestions[index];
-    
-    // 将AI建议整合到现有建议中
-    const newSuggestions = [...this.data.travelSuggestions];
-    newSuggestions.push(suggestion.content);
-    
+  // 根据图片内容生成建议
+  generateContentBasedSuggestions(content) {
+    const suggestions = [
+      `这是在${content.landmarks.join('、')}附近拍摄的照片`,
+      `照片显示这是${content.season}${content.timeOfDay}的景色，天气${content.weather}`,
+      `建议可以体验${content.activities.join('、')}等活动`
+    ];
+
     this.setData({
-      travelSuggestions: newSuggestions
+      travelSuggestions: suggestions
     });
 
-    wx.showToast({
-      title: '已采纳建议',
-      icon: 'success'
-    });
+    // 请求AI分析
+    this.requestAiAnalysis();
   },
 
-  // 分析图片时也请求AI建议
+  // 修改原有的analyzeImage方法
   async analyzeImage(filePath) {
     try {
-      // 保持原有代码...
-      this.requestAiAnalysis(); // 添加AI分析
+      // 分析图片内容
+      this.analyzeImageContent(filePath);
+      
+      // 保持原有的位置和日期识别代码...
     } catch (error) {
       console.error('图片分析失败：', error);
       wx.showToast({
@@ -74,11 +71,5 @@ Page({
       });
       this.setData({ isAnalyzing: false });
     }
-  },
-
-  // 分析文字时也请求AI建议
-  analyzeText(text) {
-    // 保持原有代码...
-    this.requestAiAnalysis(); // 添加AI分析
   }
 });

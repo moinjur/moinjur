@@ -1,33 +1,35 @@
 <view class="container">
   <!-- 保持原有内容... -->
 
-  <!-- AI分析建议 -->
-  <view class="ai-analysis-section" wx:if="{{showAiAnalysis}}">
-    <view class="section-title">
-      <text>AI智能建议</text>
-      <view class="ai-badge">AI</view>
-    </view>
+  <!-- 图片内容分析结果 -->
+  <view class="image-analysis-section" wx:if="{{showImageAnalysis}}">
+    <view class="section-title">图片内容分析</view>
     
-    <view class="ai-loading" wx:if="{{aiAnalyzing}}">
-      <view class="ai-loading-icon"></view>
-      <text class="ai-loading-text">AI正在分析您的需求...</text>
+    <view class="content-group">
+      <view class="content-title">地标建筑</view>
+      <view class="content-tags">
+        <text class="content-tag" wx:for="{{imageContent.landmarks}}" wx:key="*this">{{item}}</text>
+      </view>
     </view>
 
-    <view class="ai-suggestions" wx:else>
-      <view class="ai-suggestion-item" 
-            wx:for="{{aiSuggestions}}" 
-            wx:key="type">
-        <view class="ai-suggestion-header">
-          <text class="ai-suggestion-type">{{item.type}}</text>
-          <text class="ai-confidence">可信度: {{item.confidence * 100}}%</text>
-        </view>
-        <view class="ai-suggestion-content">{{item.content}}</view>
-        <button class="adopt-btn" 
-                bindtap="adoptAiSuggestion" 
-                data-index="{{index}}">
-          采纳建议
-        </button>
+    <view class="content-group">
+      <view class="content-title">自然景观</view>
+      <view class="content-tags">
+        <text class="content-tag" wx:for="{{imageContent.scenery}}" wx:key="*this">{{item}}</text>
       </view>
+    </view>
+
+    <view class="content-group">
+      <view class="content-title">推荐活动</view>
+      <view class="content-tags">
+        <text class="content-tag" wx:for="{{imageContent.activities}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="content-info">
+      <text class="info-item">季节：{{imageContent.season}}</text>
+      <text class="info-item">时间：{{imageContent.timeOfDay}}</text>
+      <text class="info-item">天气：{{imageContent.weather}}</text>
     </view>
   </view>
 
