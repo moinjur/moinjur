@@ -14,7 +14,8 @@ Page({
     isFirstLogin: true,
     isPhoneVerified: false,
     showRegister: true,
-    showRemoveAccountDialog: false
+    showRemoveAccountDialog: false,
+    showPhoneButton: false
   },
 
   onLoad() {
@@ -49,7 +50,62 @@ Page({
     }
   },
 
-  // 保持原有的用户信息和登录相关方法...
+  // 显示获取手机号按钮
+  showGetPhoneNumber() {
+    wx.showModal({
+      title: '提示',
+      content: '需要验证手机号完成注册，是否继续？',
+      success: (res) => {
+        if (res.confirm) {
+          this.setData({
+            showPhoneButton: true
+          });
+        }
+      }
+    });
+  },
+
+  // 处理获取手机号
+  getPhoneNumber(e) {
+    if (e.detail.errMsg === 'getPhoneNumber:ok') {
+      const phoneNumber = e.detail.phoneNumber;
+      this.setData({
+        phoneNumber: phoneNumber,
+        isRegistered: true,
+        showPhoneButton: false,
+        isPhoneVerified: true
+      });
+
+      // 保存到全局数据和本地存储
+      app.globalData.phoneNumber = phoneNumber;
+      app.globalData.isRegistered = true;
+      wx.setStorageSync('isPhoneVerified', true);
+
+      // 注册成功后跳转到主页
+      this.navigateToMain();
+    } else {
+      wx.showToast({
+        title: '获取手机号失败',
+        icon: 'none'
+      });
+    }
+  },
+
+  // 跳转到主页
+  navigateToMain() {
+    wx.setStorageSync('hasLoggedIn', true);
+    
+    this.setData({
+      showRegister: false,
+      isFirstLogin: false
+    });
+
+    wx.showToast({
+      title: '登录成功',
+      icon: 'success'
+    });
+  },
+
   handleUserProfile(e) {
     if (this.data.isLoading) return;
     
@@ -88,7 +144,6 @@ Page({
     });
   },
 
-  // 保持其他原有方法...
   showRemoveAccount() {
     this.setData({
       showRemoveAccountDialog: true
@@ -120,7 +175,8 @@ Page({
         showRemoveAccountDialog: false,
         isFirstLogin: true,
         isPhoneVerified: false,
-        showRegister: true
+        showRegister: true,
+        showPhoneButton: false
       });
 
       wx.showToast({

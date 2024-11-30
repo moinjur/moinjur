@@ -13,6 +13,16 @@
         <image class="register-icon" src="/images/wechat.png" mode="aspectFit"></image>
         微信一键登录
       </button>
+
+      <!-- 手机号验证按钮 -->
+      <button 
+        wx:if="{{showPhoneButton}}"
+        class="register-btn phone"
+        open-type="getPhoneNumber" 
+        bindgetphonenumber="getPhoneNumber"
+      >
+        验证手机号
+      </button>
     </view>
   </view>
 
