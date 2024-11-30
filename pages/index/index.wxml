@@ -1,30 +1,32 @@
 <view class="container">
   <!-- 首次登录注册页面 -->
-  <view class="register-container" wx:if="{{isFirstLogin && !isPhoneVerified}}">
-    <view class="register-title">欢迎使用智能旅行助手</view>
-    <view class="register-subtitle">首次使用需要验证手机号</view>
+  <block wx:if="{{isFirstLogin && !isPhoneVerified}}">
+    <view class="register-container">
+      <view class="register-title">欢迎使用智能旅行助手</view>
+      <view class="register-subtitle">首次使用需要验证手机号</view>
+      
+      <view class="register-options">
+        <button 
+          class="register-btn wechat {{isLoading ? 'loading' : ''}}"
+          bindtap="handleUserProfile"
+          disabled="{{isLoading}}"
+        >
+          <image class="register-icon" src="/images/wechat.png" mode="aspectFit"></image>
+          微信一键登录
+        </button>
 
-    <view class="register-options">
-      <button
-        class="register-btn wechat {{isLoading ? 'loading' : ''}}"
-        bindtap="handleUserProfile"
-        disabled="{{isLoading}}"
-      >
-        <image class="register-icon" src="/images/wechat.png" mode="aspectFit"></image>
-        微信一键登录
-      </button>
-
-      <!-- 手机号验证按钮 -->
-      <button
-        wx:if="{{showPhoneButton}}"
-        class="register-btn phone"
-        open-type="getPhoneNumber"
-        bindgetphonenumber="getPhoneNumber"
-      >
-        验证手机号
-      </button>
+        <!-- 手机号验证按钮 -->
+        <button 
+          wx:if="{{showPhoneButton}}"
+          class="register-btn phone"
+          open-type="getPhoneNumber" 
+          bindgetphonenumber="getPhoneNumber"
+        >
+          验证手机号
+        </button>
+      </view>
     </view>
-  </view>
+  </block>
 
   <!-- 主页内容 -->
   <block wx:else>
@@ -35,7 +37,21 @@
       </view>
     </view>
 
+    <!-- 添加移除账号按钮 -->
+    <view class="remove-account" wx:if="{{hasUserInfo && isPhoneVerified}}">
+      <button class="remove-btn" bindtap="showRemoveAccount">移除账号</button>
+    </view>
 
+    <!-- 移除账号确认对话框 -->
+    <view class="dialog-mask" wx:if="{{showRemoveAccountDialog}}">
+      <view class="dialog-container">
+        <view class="dialog-title">确认移除账号</view>
+        <view class="dialog-content">移除账号后将清除所有本地数据，需要重新注册登录。是否继续？</view>
+        <view class="dialog-buttons">
+          <button class="dialog-btn cancel" bindtap="cancelRemoveAccount">取消</button>
+          <button class="dialog-btn confirm" bindtap="confirmRemoveAccount">确认移除</button>
+        </view>
+      </view>
     </view>
   </block>
 </view>
