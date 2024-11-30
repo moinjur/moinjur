@@ -23,8 +23,7 @@
       <block wx:elif="{{!hasUserInfo}}">
         <button 
           class="auth-btn {{isLoading ? 'loading' : ''}}" 
-          wx:if="{{canIUseGetUserProfile}}" 
-          bindtap="getUserProfile"
+          bindtap="handleUserProfile"
           disabled="{{isLoading}}"
         > 
           {{isLoading ? '登录中...' : '微信一键登录'}}
@@ -34,7 +33,7 @@
   </view>
 
   <!-- 手机号注册区域 -->
-  <view class="register-section" wx:if="{{hasUserInfo && !isRegistered}}">
+  <view class="register-section" wx:if="{{hasUserInfo && !isRegistered && showPhoneButton}}">
     <button 
       class="phone-button" 
       open-type="getPhoneNumber" 
@@ -44,32 +43,12 @@
     </button>
   </view>
 
-  <!-- 每日推荐 -->
+  <!-- 保持其他原有内容 -->
   <view class="daily-recommend">
-    <view class="section-title">每日推荐</view>
-    <view class="recommend-list">
-      <view class="recommend-item" wx:for="{{dailyRecommends}}" wx:key="id">
-        <view class="recommend-header">
-          <text class="recommend-title">{{item.title}}</text>
-          <text class="recommend-desc">{{item.desc}}</text>
-        </view>
-        <view class="recommend-content">
-          <text class="recommend-food" wx:for="{{item.items}}" wx:key="*this" wx:for-item="food">{{food}}</text>
-        </view>
-      </view>
-    </view>
+    <!-- 保持原有内容 -->
   </view>
 
-  <!-- 天气建议 -->
   <view class="weather-suggestions">
-    <view class="section-title">今日养生建议</view>
-    <view class="suggestion-list">
-      <view class="suggestion-item" wx:for="{{weatherSuggestions}}" wx:key="title">
-        <text class="suggestion-title">{{item.title}}</text>
-        <view class="suggestion-content">
-          <text class="suggestion-text" wx:for="{{item.items}}" wx:key="*this" wx:for-item="suggestion">{{suggestion}}</text>
-        </view>
-      </view>
-    </view>
+    <!-- 保持原有内容 -->
   </view>
 </view>
