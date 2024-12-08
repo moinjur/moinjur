@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/travel/travel"
+    "pages/checkin/checkin",
+    "pages/profile/profile",
+    "pages/message/message"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -22,10 +24,22 @@
         "selectedIconPath": "/images/tabbar/home-active.png"
       },
       {
-        "pagePath": "pages/travel/travel",
-        "text": "旅行",
-        "iconPath": "/images/tabbar/travel.png",
-        "selectedIconPath": "/images/tabbar/travel-active.png"
+        "pagePath": "pages/checkin/checkin",
+        "text": "+",
+        "iconPath": "/images/tabbar/plus.png",
+        "selectedIconPath": "/images/tabbar/plus-active.png"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "text": "消息",
+        "iconPath": "/images/tabbar/message.png",
+        "selectedIconPath": "/images/tabbar/message-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "/images/tabbar/profile.png",
+        "selectedIconPath": "/images/tabbar/profile-active.png"
       }
     ]
   },
@@ -37,6 +51,12 @@
   "requiredPrivateInfos": [
     "getLocation"
   ],
+  "plugins": {
+    "myPlugin": {
+      "version": "1.0.0",
+      "provider": "wxidxxxxxxxxxxxxxxxx" // 高德地图AppId
+    }
+  },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

@@ -1,77 +1,47 @@
-/* 保持原有样式... */
-
-.remove-account {
+.container {
+  height: 100vh;
   width: 100%;
-  padding: 40rpx;
-  margin-top: 40rpx;
+  position: relative;
 }
 
-.remove-btn {
+.map {
   width: 100%;
-  height: 88rpx;
-  line-height: 88rpx;
-  background: #ff4d4f;
-  color: #fff;
-  font-size: 32rpx;
-  border-radius: 44rpx;
+  height: 100%;
 }
 
-.dialog-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
+.userinfo-container {
+  position: absolute;
+  top: 20rpx;
+  left: 20rpx;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10rpx;
+  border-radius: 10rpx;
+}
+
+.userinfo-mini {
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
-.dialog-container {
-  width: 80%;
-  background: #fff;
-  border-radius: 20rpx;
-  padding: 40rpx;
+.userinfo-avatar-mini {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 10rpx;
 }
 
-.dialog-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30rpx;
-}
-
-.dialog-content {
+.userinfo-nickname-mini {
   font-size: 28rpx;
-  color: #666;
-  text-align: center;
-  margin-bottom: 40rpx;
+  color: #333;
 }
 
-.dialog-buttons {
+/* 保留原有样式 */
+.container {
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
-}
-
-.dialog-btn {
-  flex: 1;
-  height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
-  border-radius: 40rpx;
-  font-size: 32rpx;
-  margin: 0 20rpx;
-}
-
-.dialog-btn.cancel {
-  background: #f5f5f5;
-  color: #666;
-}
-
-.dialog-btn.confirm {
-  background: #ff4d4f;
-  color: #fff;
+  box-sizing: border-box;
 }

@@ -1,0 +1,92 @@
+<view class="container">
+  <!-- 标签栏 -->
+  <view class="tabs">
+    <view 
+      class="tab-item {{currentTab === index ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="*this"
+      bindtap="switchTab"
+      data-index="{{index}}"
+    >
+      {{item}}
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="message-list">
+    <!-- 赞 -->
+    <view class="message-section" hidden="{{currentTab !== 0}}">
+      <view 
+        class="message-item"
+        wx:for="{{messages.likes}}"
+        wx:key="id"
+        bindtap="viewDetail"
+        data-type="like"
+        data-id="{{item.id}}"
+      >
+        <image class="user-avatar" src="{{item.user.avatar}}"></image>
+        <view class="message-content">
+          <view class="user-name">{{item.user.name}}</view>
+          <view class="message-text">{{item.content}}</view>
+          <view class="message-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 关注 -->
+    <view class="message-section" hidden="{{currentTab !== 1}}">
+      <view 
+        class="message-item"
+        wx:for="{{messages.follows}}"
+        wx:key="id"
+        bindtap="viewDetail"
+        data-type="follow"
+        data-id="{{item.id}}"
+      >
+        <image class="user-avatar" src="{{item.user.avatar}}"></image>
+        <view class="message-content">
+          <view class="user-name">{{item.user.name}}</view>
+          <view class="message-text">{{item.content}}</view>
+          <view class="message-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 收藏 -->
+    <view class="message-section" hidden="{{currentTab !== 2}}">
+      <view 
+        class="message-item"
+        wx:for="{{messages.collections}}"
+        wx:key="id"
+        bindtap="viewDetail"
+        data-type="collection"
+        data-id="{{item.id}}"
+      >
+        <image class="user-avatar" src="{{item.user.avatar}}"></image>
+        <view class="message-content">
+          <view class="user-name">{{item.user.name}}</view>
+          <view class="message-text">{{item.content}}</view>
+          <view class="message-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 通知 -->
+    <view class="message-section" hidden="{{currentTab !== 3}}">
+      <view 
+        class="message-item notification"
+        wx:for="{{messages.notifications}}"
+        wx:key="id"
+        bindtap="viewDetail"
+        data-type="notification"
+        data-id="{{item.id}}"
+      >
+        <view class="notification-content">
+          <view class="notification-title">{{item.title}}</view>
+          <view class="notification-text">{{item.content}}</view>
+          <view class="message-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

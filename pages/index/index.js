@@ -7,15 +7,10 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName'),
-    isRegistered: false,
-    phoneNumber: '',
-    location: '',
-    isLoading: false,
-    isFirstLogin: true,
-    isPhoneVerified: false,
-    showRegister: true,
-    showRemoveAccountDialog: false,
-    showPhoneButton: false
+    latitude: 23.099994,
+    longitude: 113.324520,
+    markers: [],
+    scale: 14
   },
 
   onLoad() {
@@ -24,6 +19,9 @@ Page({
         canIUseGetUserProfile: true
       });
     }
+
+    // 获取位置信息
+    this.getLocation();
 
     // 检查本地存储的用户信息
     const storedUserInfo = wx.getStorageSync('userInfo');
@@ -34,78 +32,49 @@ Page({
       });
       app.globalData.userInfo = storedUserInfo;
     }
-
-    // 检查是否首次登录
-    const isFirstLogin = !wx.getStorageSync('hasLoggedIn');
-    const isPhoneVerified = wx.getStorageSync('isPhoneVerified');
-    
-    this.setData({
-      isFirstLogin,
-      isPhoneVerified
-    });
-
-    // 如果已验证手机号，直接跳转主页
-    if (isPhoneVerified) {
-      this.navigateToMain();
-    }
   },
 
-  // 显示获取手机号按钮
-  showGetPhoneNumber() {
-    wx.showModal({
-      title: '提示',
-      content: '需要验证手机号完成注册，是否继续？',
+  // 获取位置信息
+  getLocation() {
+    wx.getLocation({
+      type: 'gcj02',
       success: (res) => {
-        if (res.confirm) {
-          this.setData({
-            showPhoneButton: true
-          });
-        }
+        const {latitude, longitude} = res;
+        this.setData({
+          latitude,
+          longitude,
+          markers: [{
+            id: 1,
+            latitude,
+            longitude,
+            title: '当前位置'
+          }]
+        });
+      },
+      fail: (err) => {
+        console.error('获取位置失败：', err);
+        wx.showToast({
+          title: '获取位置失败',
+          icon: 'none'
+        });
       }
     });
   },
 
-  // 处理获取手机号
-  getPhoneNumber(e) {
-    if (e.detail.errMsg === 'getPhoneNumber:ok') {
-      const phoneNumber = e.detail.phoneNumber;
-      this.setData({
-        phoneNumber: phoneNumber,
-        isRegistered: true,
-        showPhoneButton: false,
-        isPhoneVerified: true
-      });
-
-      // 保存到全局数据和本地存储
-      app.globalData.phoneNumber = phoneNumber;
-      app.globalData.isRegistered = true;
-      wx.setStorageSync('isPhoneVerified', true);
-
-      // 注册成功后跳转到主页
-      this.navigateToMain();
-    } else {
-      wx.showToast({
-        title: '获取手机号失败',
-        icon: 'none'
-      });
-    }
+  // 地图相关事件处理
+  onMarkerTap(e) {
+    console.log('marker tap', e);
   },
 
-  // 跳转到主页
-  navigateToMain() {
-    wx.setStorageSync('hasLoggedIn', true);
-    
-    this.setData({
-      showRegister: false,
-      isFirstLogin: false
-    });
-
-    wx.showToast({
-      title: '登录成功',
-      icon: 'success'
-    });
+  onRegionChange(e) {
+    console.log('region change', e);
   },
 
+  onMapTap(e) {
+    console.log('map tap', e);
+  },
+
+  // 保留原有的用户信息相关函数
   handleUserProfile(e) {
     if (this.data.isLoading) return;
     
@@ -142,54 +111,5 @@ Page({
         this.setData({ isLoading: false });
       }
     });
-  },
-
-  showRemoveAccount() {
-    this.setData({
-      showRemoveAccountDialog: true
-    });
-  },
-
-  cancelRemoveAccount() {
-    this.setData({
-      showRemoveAccountDialog: false
-    });
-  },
-
-  async confirmRemoveAccount() {
-    try {
-      wx.removeStorageSync('userInfo');
-      wx.removeStorageSync('isRegistered');
-      wx.removeStorageSync('hasLoggedIn');
-      wx.removeStorageSync('isPhoneVerified');
-
-      app.globalData.userInfo = null;
-      app.globalData.phoneNumber = null;
-      app.globalData.isRegistered = false;
-
-      this.setData({
-        userInfo: {},
-        hasUserInfo: false,
-        isRegistered: false,
-        phoneNumber: '',
-        showRemoveAccountDialog: false,
-        isFirstLogin: true,
-        isPhoneVerified: false,
-        showRegister: true,
-        showPhoneButton: false
-      });
-
-      wx.showToast({
-        title: '账号已移除',
-        icon: 'success'
-      });
-
-    } catch (error) {
-      console.error('移除账号失败：', error);
-      wx.showToast({
-        title: '移除账号失败',
-        icon: 'none'
-      });
-    }
   }
 });
