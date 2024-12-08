@@ -16,8 +16,7 @@
     "color": "#999999",
     "selectedColor": "#1AAD19",
     "backgroundColor": "#ffffff",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/index",
         "text": "首页",
         "iconPath": "/images/tabbar/home.png",
@@ -54,7 +53,8 @@
   "plugins": {
     "myPlugin": {
       "version": "1.0.0",
-      "provider": "wxidxxxxxxxxxxxxxxxx" // 高德地图AppId
+      "provider": "752271e90ac3f23aad7fc1fb64e27a7c"
+
     }
   },
   "style": "v2",
