@@ -50,13 +50,6 @@
   "requiredPrivateInfos": [
     "getLocation"
   ],
-  "plugins": {
-    "myPlugin": {
-      "version": "1.0.0",
-      "provider": "752271e90ac3f23aad7fc1fb64e27a7c"
-
-    }
-  },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

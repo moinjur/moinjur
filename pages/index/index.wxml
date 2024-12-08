@@ -6,10 +6,19 @@
     latitude="{{latitude}}"
     scale="{{scale}}"
     markers="{{markers}}"
+    polyline="{{polyline}}"
+    circles="{{circles}}"
+    controls="{{controls}}"
+    include-points="{{includePoints}}"
     bindmarkertap="onMarkerTap"
     bindregionchange="onRegionChange"
     bindtap="onMapTap"
     show-location
+    show-compass
+    show-scale
+    enable-rotate
+    enable-satellite
+    enable-traffic
     class="map"
   ></map>
 
