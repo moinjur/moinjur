@@ -27,7 +27,7 @@ App({
   requestAuth() {
     wx.showModal({
       title: '欢迎使用',
-      content: '为了提供更好的服务，需要获取您的以下信息：\n1. 微信头像和昵称\n2. 手机号\n3. 位置信息',
+      content: '为了提供更好的服务，需要获取您的微信账号和手机号',
       success: (res) => {
         if (res.confirm) {
           this.getUserProfile();
@@ -65,8 +65,8 @@ App({
               this.globalData.phoneNumber = res.phoneNumber;
               wx.setStorageSync('phoneNumber', res.phoneNumber);
               
-              // 获取位置信息
-              this.getLocation();
+              // 完成注册
+              this.completeRegistration();
             },
             fail: (err) => {
               console.error('获取手机号失败：', err);
@@ -77,33 +77,13 @@ App({
     });
   },
 
-  // 获取位置信息
-  getLocation() {
-    wx.authorize({
-      scope: 'scope.userLocation',
-      success: () => {
-        wx.getLocation({
-          type: 'gcj02',
-          success: (res) => {
-            this.globalData.location = res;
-            wx.setStorageSync('location', res);
-          },
-          fail: (err) => {
-            console.error('获取位置失败：', err);
-          }
-        });
-      },
-      fail: () => {
-        wx.showModal({
-          title: '提示',
-          content: '需要获取您的地理位置，请确认授权',
-          success: (res) => {
-            if (res.confirm) {
-              wx.openSetting();
-            }
-          }
-        });
-      }
+  // 完成注册
+  completeRegistration() {
+    // TODO: 调用后端接口完成注册
+    console.log('注册完成');
+    wx.showToast({
+      title: '注册成功',
+      icon: 'success'
     });
   },
 
@@ -122,7 +102,6 @@ App({
   globalData: {
     userInfo: null,
     phoneNumber: null,
-    location: null,
     isFirstLogin: true
   }
 });

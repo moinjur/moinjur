@@ -1,8 +1,4 @@
 const app = getApp();
-const amapFile = require('../../libs/amap-wx.js');
-const myAmapFun = new amapFile({
-  key: '752271e90ac3f23aad7fc1fb64e27a7c'
-});
 
 Page({
   data: {
@@ -149,9 +145,6 @@ Page({
             height: 32
           }]
         });
-
-        // 使用高德地图SDK获取周边信息
-        this.getPoiAround(latitude, longitude);
       },
       fail: (err) => {
         console.error('获取位置失败：', err);
@@ -159,33 +152,6 @@ Page({
           title: '获取位置失败',
           icon: 'none'
         });
-      }
-    });
-  },
-
-  // 获取周边兴趣点
-  getPoiAround(latitude, longitude) {
-    myAmapFun.getPoiAround({
-      location: `${longitude},${latitude}`,
-      success: (data) => {
-        if (data.markers) {
-          const markers = data.markers.map((item, index) => ({
-            id: index + 2,
-            latitude: item.latitude,
-            longitude: item.longitude,
-            title: item.name,
-            iconPath: '/images/poi.png',
-            width: 24,
-            height: 24
-          }));
-
-          this.setData({
-            markers: [...this.data.markers, ...markers]
-          });
-        }
-      },
-      fail: (err) => {
-        console.error('获取周边信息失败：', err);
       }
     });
   },
