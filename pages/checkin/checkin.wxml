@@ -1,22 +1,85 @@
 <view class="container">
-  <view class="header">
-    <view class="streak-info">
-      <text class="streak-number">{{streak}}</text>
-      <text class="streak-text">连续打卡天数</text>
-    </view>
-    <button class="checkin-btn {{todayChecked ? 'checked' : ''}}" bindtap="onCheckIn">
-      {{todayChecked ? '已打卡' : '打卡'}}
+  <!-- 打卡按钮 -->
+  <view class="checkin-section">
+    <button 
+      class="checkin-btn {{isChecked ? 'checked' : ''}}" 
+      bindtap="handleCheckin"
+      disabled="{{isChecked}}"
+    >
+      {{isChecked ? '今日已打卡' : '打卡'}}
     </button>
+    <text class="address" wx:if="{{address}}">{{address}}</text>
   </view>
 
-  <view class="task-list">
-    <view class="task-item" wx:for="{{tasks}}" wx:key="id">
-      <view class="task-content" bindtap="onTaskComplete" data-id="{{item.id}}">
-        <view class="checkbox {{item.isCompleted ? 'checked' : ''}}"></view>
-        <view class="task-info">
-          <text class="task-name">{{item.name}}</text>
-          <text class="task-description">{{item.description}}</text>
+  <!-- 媒体记录区域 -->
+  <view class="media-section">
+    <!-- 语音录制 -->
+    <view class="voice-section">
+      <button 
+        class="voice-btn {{isRecording ? 'recording' : ''}}"
+        bindtouchstart="startRecord"
+        bindtouchend="stopRecord"
+      >
+        {{isRecording ? '松开结束' : '按住说话'}}
+      </button>
+      <text class="record-time" wx:if="{{isRecording}}">{{recordTime}}s</text>
+      <button 
+        class="play-btn" 
+        bindtap="playVoice" 
+        wx:if="{{tempVoicePath}}"
+      >播放录音</button>
+    </view>
+
+    <!-- 图片上传 -->
+    <view class="image-section">
+      <view class="image-list">
+        <view 
+          class="image-item" 
+          wx:for="{{imageList}}" 
+          wx:key="*this"
+        >
+          <image 
+            src="{{item}}" 
+            mode="aspectFill" 
+            bindtap="previewImage"
+            data-src="{{item}}"
+          ></image>
+          <view 
+            class="delete-btn"
+            catchtap="deleteImage"
+            data-index="{{index}}"
+          >×</view>
         </view>
+        <view 
+          class="upload-btn"
+          bindtap="chooseImage"
+          wx:if="{{imageList.length < maxImageCount}}"
+        >
+          <text>+</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 视频上传 -->
+    <view class="video-section">
+      <view class="video-container" wx:if="{{videoPath}}">
+        <video 
+          id="checkinVideo"
+          src="{{videoPath}}"
+          poster="{{videoThumb}}"
+          bindtap="playVideo"
+        ></video>
+        <view 
+          class="delete-btn"
+          catchtap="deleteVideo"
+        >×</view>
+      </view>
+      <view 
+        class="upload-btn"
+        bindtap="chooseVideo"
+        wx:else
+      >
+        <text>上传视频</text>
       </view>
     </view>
   </view>
