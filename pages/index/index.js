@@ -51,8 +51,6 @@ Page({
       });
       app.globalData.userInfo = userInfo;
       app.globalData.phoneNumber = phoneNumber;
-    } else {
-      this.handleUserProfile();
     }
   },
 
@@ -170,10 +168,6 @@ Page({
           title: '登录成功',
           icon: 'success'
         });
-
-        if (!this.data.isRegistered) {
-          this.showGetPhoneNumber();
-        }
       },
       fail: (err) => {
         console.error('获取用户信息失败：', err);
@@ -188,26 +182,24 @@ Page({
     });
   },
 
-  // 显示获取手机号弹窗
-  showGetPhoneNumber() {
-    wx.showModal({
-      title: '提示',
-      content: '是否使用微信手机号快速注册？',
-      success: (res) => {
-        if (res.confirm) {
-          wx.getPhoneNumber({
-            success: (res) => {
-              wx.setStorageSync('phoneNumber', res.phoneNumber);
-              app.globalData.phoneNumber = res.phoneNumber;
-              this.setData({ isRegistered: true });
-            },
-            fail: (err) => {
-              console.error('获取手机号失败：', err);
-            }
-          });
-        }
-      }
-    });
+  // 处理手机号
+  handlePhoneNumber(e) {
+    if (e.detail.errMsg === 'getPhoneNumber:ok') {
+      const phoneNumber = e.detail.phoneNumber;
+      wx.setStorageSync('phoneNumber', phoneNumber);
+      app.globalData.phoneNumber = phoneNumber;
+      this.setData({ isRegistered: true });
+
+      wx.showToast({
+        title: '注册成功',
+        icon: 'success'
+      });
+    } else {
+      wx.showToast({
+        title: '获取手机号失败',
+        icon: 'none'
+      });
+    }
   },
 
   // 地图相关事件处理

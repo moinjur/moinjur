@@ -22,7 +22,30 @@
     class="map"
   ></map>
 
-  <!-- 保留原有的用户信息展示部分 -->
+  <!-- 授权弹窗 -->
+  <view class="auth-container" wx:if="{{!hasUserInfo || !isRegistered}}">
+    <view class="auth-box">
+      <view class="auth-title">授权提示</view>
+      <view class="auth-content">为了提供更好的服务，需要获取以下权限：</view>
+      
+      <!-- 用户信息授权 -->
+      <button 
+        wx:if="{{!hasUserInfo}}"
+        class="auth-btn"
+        bindtap="handleUserProfile"
+      >获取用户信息</button>
+
+      <!-- 手机号授权 -->
+      <button 
+        wx:if="{{hasUserInfo && !isRegistered}}"
+        class="auth-btn"
+        open-type="getPhoneNumber"
+        bindgetphonenumber="handlePhoneNumber"
+      >获取手机号</button>
+    </view>
+  </view>
+
+  <!-- 用户信息展示 -->
   <view class="userinfo-container" wx:if="{{hasUserInfo}}">
     <view class="userinfo-mini">
       <image class="userinfo-avatar-mini" src="{{userInfo.avatarUrl}}" mode="cover"></image>
