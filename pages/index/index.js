@@ -1,7 +1,7 @@
 const app = getApp();
-const amapFile = require('../../libs/amap-wx.js'); // 引入高德地图SDK
+const amapFile = require('../../libs/amap-wx.js');
 const myAmapFun = new amapFile.AMapWX({
-  key: 'your_amap_key' // 替换为您的高德地图key
+  key: '752271e90ac3f23aad7fc1fb64e27a7c'
 });
 
 Page({
@@ -18,7 +18,10 @@ Page({
     polyline: [],
     circles: [],
     controls: [],
-    includePoints: []
+    includePoints: [],
+    isLoading: false,
+    isRegistered: false,
+    hasLocation: false
   },
 
   onLoad() {
@@ -28,22 +31,66 @@ Page({
       });
     }
 
-    // 获取位置信息
-    this.getLocation();
+    // 检查登录状态
+    this.checkLoginStatus();
 
-    // 检查本地存储的用户信息
-    const storedUserInfo = wx.getStorageSync('userInfo');
-    if (storedUserInfo) {
+    // 检查定位权限
+    this.checkLocationAuth();
+  },
+
+  // 检查登录状态
+  checkLoginStatus() {
+    const userInfo = wx.getStorageSync('userInfo');
+    const phoneNumber = wx.getStorageSync('phoneNumber');
+    
+    if (userInfo && phoneNumber) {
       this.setData({
-        userInfo: storedUserInfo,
-        hasUserInfo: true
+        userInfo,
+        hasUserInfo: true,
+        isRegistered: true
       });
-      app.globalData.userInfo = storedUserInfo;
+      app.globalData.userInfo = userInfo;
+      app.globalData.phoneNumber = phoneNumber;
+    } else {
+      this.handleUserProfile();
     }
+  },
+
+  // 检查定位权限
+  checkLocationAuth() {
+    wx.getSetting({
+      success: (res) => {
+        if (!res.authSetting['scope.userLocation']) {
+          wx.authorize({
+            scope: 'scope.userLocation',
+            success: () => {
+              this.setData({ hasLocation: true });
+              this.getLocation();
+            },
+            fail: () => {
+              wx.showModal({
+                title: '提示',
+                content: '需要获取您的地理位置，请确认授权',
+                success: (res) => {
+                  if (res.confirm) {
+                    wx.openSetting();
+                  }
+                }
+              });
+            }
+          });
+        } else {
+          this.setData({ hasLocation: true });
+          this.getLocation();
+        }
+      }
+    });
   },
 
   // 获取位置信息
   getLocation() {
+    if (!this.data.hasLocation) return;
+
     wx.getLocation({
       type: 'gcj02',
       success: (res) => {
@@ -82,7 +129,7 @@ Page({
       success: (data) => {
         if (data.markers) {
           const markers = data.markers.map((item, index) => ({
-            id: index + 2, // id从2开始，因为1已经用于当前位置
+            id: index + 2,
             latitude: item.latitude,
             longitude: item.longitude,
             title: item.name,
@@ -102,29 +149,8 @@ Page({
     });
   },
 
-  // 地图相关事件处理
-  onMarkerTap(e) {
-    const markerId = e.markerId;
-    const marker = this.data.markers.find(item => item.id === markerId);
-    if (marker) {
-      wx.showModal({
-        title: marker.title,
-        content: `位置：${marker.latitude}, ${marker.longitude}`,
-        showCancel: false
-      });
-    }
-  },
-
-  onRegionChange(e) {
-    console.log('region change', e);
-  },
-
-  onMapTap(e) {
-    console.log('map tap', e);
-  },
-
-  // 保留原有的用户信息相关函数
-  handleUserProfile(e) {
+  // 处理用户信息
+  handleUserProfile() {
     if (this.data.isLoading) return;
     
     this.setData({ isLoading: true });
@@ -160,5 +186,48 @@ Page({
         this.setData({ isLoading: false });
       }
     });
+  },
+
+  // 显示获取手机号弹窗
+  showGetPhoneNumber() {
+    wx.showModal({
+      title: '提示',
+      content: '是否使用微信手机号快速注册？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.getPhoneNumber({
+            success: (res) => {
+              wx.setStorageSync('phoneNumber', res.phoneNumber);
+              app.globalData.phoneNumber = res.phoneNumber;
+              this.setData({ isRegistered: true });
+            },
+            fail: (err) => {
+              console.error('获取手机号失败：', err);
+            }
+          });
+        }
+      }
+    });
+  },
+
+  // 地图相关事件处理
+  onMarkerTap(e) {
+    const markerId = e.markerId;
+    const marker = this.data.markers.find(item => item.id === markerId);
+    if (marker) {
+      wx.showModal({
+        title: marker.title,
+        content: `位置：${marker.latitude}, ${marker.longitude}`,
+        showCancel: false
+      });
+    }
+  },
+
+  onRegionChange(e) {
+    console.log('region change', e);
+  },
+
+  onMapTap(e) {
+    console.log('map tap', e);
   }
 });
