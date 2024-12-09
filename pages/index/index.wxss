@@ -9,6 +9,24 @@
   height: 100%;
 }
 
+.map-controls {
+  position: absolute;
+  right: 20rpx;
+  bottom: 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+  border-radius: 10rpx;
+  border: none;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
 .auth-container {
   position: fixed;
   top: 0;

@@ -1,5 +1,5 @@
 <view class="container">
-  <!-- 地图组件 -->
+  <!-- 3D地图组件 -->
   <map
     id="map"
     longitude="{{longitude}}"
@@ -14,13 +14,29 @@
     bindregionchange="onRegionChange"
     bindtap="onMapTap"
     show-location
-    show-compass
-    show-scale
-    enable-rotate
-    enable-satellite
-    enable-traffic
+    show-compass="{{showCompass}}"
+    enable-overlooking="{{enableOverlooking}}"
+    enable-zoom="{{enableZoom}}"
+    enable-rotate="{{enableRotate}}"
+    enable-satellite="{{enableSatellite}}"
+    enable-3D="{{true}}"
+    enable-building="{{enableBuilding}}"
+    min-scale="{{minScale}}"
+    max-scale="{{maxScale}}"
+    layer-style="{{layerStyle}}"
+    skew="{{skew}}"
+    rotate="{{rotate}}"
     class="map"
   ></map>
+
+  <!-- 地图控制按钮 -->
+  <view class="map-controls">
+    <button class="control-btn" bindtap="handleRotate">旋转</button>
+    <button class="control-btn" bindtap="handleSkew">倾斜</button>
+    <button class="control-btn" bindtap="toggleSatellite">
+      {{enableSatellite ? '普通图' : '卫星图'}}
+    </button>
+  </view>
 
   <!-- 授权弹窗 -->
   <view class="auth-container" wx:if="{{!hasUserInfo || !isRegistered}}">
