@@ -1,6 +1,7 @@
 const app = getApp();
+// 修改引入路径
 const amapFile = require('../../libs/amap-wx.js');
-const myAmapFun = new amapFile.AMapWX({
+const myAmapFun = new amapFile({
   key: '752271e90ac3f23aad7fc1fb64e27a7c'
 });
 

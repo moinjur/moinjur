@@ -1,0 +1,4 @@
+function AMapWX(a){this.key=a.key;this.requestConfig={key:a.key,s:"rsx",platform:"WXJS",appname:a.key,sdkversion:"1.2.0",logversion:"2.0"}}
+AMapWX.prototype.getWxLocation=function(a,b){wx.getLocation({type:"gcj02",success:function(a){var c=a.longitude+","+a.latitude;wx.setStorage({key:"userLocation",data:c});b(c)},fail:function(c){wx.getStorage({key:"userLocation",success:function(a){a.data&&b(a.data)}})}})};
+AMapWX.prototype.getPoiAround=function(a){var b=this.requestConfig;a.location&&(b.location=a.location);a.querytypes&&(b.types=a.querytypes);a.querykeywords&&(b.keywords=a.querykeywords);wx.request({url:"https://restapi.amap.com/v3/place/around",data:b,method:"GET",header:{"content-type":"application/json"},success:function(b){"10000"===b.data.infocode?a.success(b.data.pois):a.fail({errCode:b.data.infocode,errMsg:b.data.info})},fail:function(b){a.fail({errCode:"0",errMsg:b.errMsg||""})}})};
+module.exports = AMapWX;
