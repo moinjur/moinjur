@@ -9,7 +9,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "智能旅行助手",
+    "navigationBarTitleText": "WordTrip",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
