@@ -1,63 +1,35 @@
 <view class="container">
-  <!-- 腾讯地图组件 -->
+  <!-- 高德地图组件 -->
   <map
     id="map"
     longitude="{{longitude}}"
     latitude="{{latitude}}"
     scale="{{scale}}"
     markers="{{markers}}"
-    polyline="{{polyline}}"
-    circles="{{circles}}"
-    controls="{{controls}}"
-    include-points="{{includePoints}}"
     bindmarkertap="onMarkerTap"
     bindregionchange="onRegionChange"
     bindtap="onMapTap"
     show-location
+    show-scale="{{showScale}}"
     show-compass="{{showCompass}}"
-    enable-overlooking="{{enableOverlooking}}"
-    enable-zoom="{{enableZoom}}"
-    enable-rotate="{{enableRotate}}"
-    enable-satellite="{{enableSatellite}}"
-    enable-3D="{{true}}"
-    enable-building="{{enableBuilding}}"
-    min-scale="{{minScale}}"
-    max-scale="{{maxScale}}"
-    layer-style="{{layerStyle}}"
+    enable-3D="{{enable3D}}"
+    show-building-block="{{showBuildingBlock}}"
     skew="{{skew}}"
     rotate="{{rotate}}"
+    style="{{mapStyle}}"
     class="map"
   ></map>
 
-  <!-- 地图控制按钮 -->
-  <view class="map-controls">
-    <button class="control-btn" bindtap="handleRotate">旋转</button>
-    <button class="control-btn" bindtap="handleSkew">倾斜</button>
-    <button class="control-btn" bindtap="toggleSatellite">
-      {{enableSatellite ? '普通图' : '卫星图'}}
-    </button>
-  </view>
-
-  <!-- 授权弹窗 -->
-  <view class="auth-container" wx:if="{{!hasUserInfo || !isRegistered}}">
+  <!-- 手机号授权弹窗 -->
+  <view class="auth-container" wx:if="{{showPhoneAuth}}">
     <view class="auth-box">
-      <view class="auth-title">授权提示</view>
-      <view class="auth-content">为了提供更好的服务，需要获取以下权限：</view>
-      
-      <!-- 用户信息授权 -->
+      <view class="auth-title">欢迎使用</view>
+      <view class="auth-content">请先绑定手机号完成注册</view>
       <button 
-        wx:if="{{!hasUserInfo}}"
-        class="auth-btn"
-        bindtap="handleUserProfile"
-      >微信账号登录</button>
-
-      <!-- 手机号授权 -->
-      <button 
-        wx:if="{{hasUserInfo && !isRegistered}}"
         class="auth-btn"
         open-type="getPhoneNumber"
         bindgetphonenumber="handlePhoneNumber"
-      >绑定手机号</button>
+      >微信手机号快速注册</button>
     </view>
   </view>
 
